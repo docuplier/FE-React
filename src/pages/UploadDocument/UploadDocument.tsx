@@ -76,6 +76,7 @@ const UploadDocument = () => {
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
+            borderRadius: 3,
           }}
         >
           <Box
