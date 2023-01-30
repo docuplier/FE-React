@@ -1,4 +1,10 @@
-import { Container, Grid, Typography } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { ILandingSection } from "interfaces";
 import React, { Fragment } from "react";
 import { pxToRem } from "utils/pxToRem";
@@ -7,59 +13,71 @@ import Number2 from "assets/2.svg";
 import Number3 from "assets/3.svg";
 import Number4 from "assets/4.svg";
 
-const data = [
-  {
-    itemNumber: <img src={Number1} alt="Number 1" />,
-    description:
-      "Choose files: Upload name list and the preferred document type’s design",
-  },
-  {
-    itemNumber: "",
-    description: "",
-  },
-  {
-    itemNumber: "",
-    description: "",
-  },
-  {
-    itemNumber: <img src={Number2} alt="Number 2" />,
-    description:
-      "Create name field: Be sure to choose befitting fonts and drag to position based on your design uploaded",
-  },
-  {
-    itemNumber: <img src={Number3} alt="Number 3" />,
-    description:
-      "Create email duplicates: Email or download certificates for printing",
-  },
-  {
-    itemNumber: "",
-    description: "",
-  },
-  {
-    itemNumber: "",
-    description: "",
-  },
-  {
-    itemNumber: <img src={Number4} alt="Number 4" />,
-    description:
-      "Create name field: Be sure to choose befitting fonts and drag to position",
-  },
-  {
-    itemNumber: "",
-    description: "",
-  },
-];
-
 const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
+  const data = [
+    {
+      itemNumber: (
+        <img
+          src={Number1}
+          alt="Number 1"
+          width={isMobile ? "75px" : "120px"}
+          height={isMobile ? "102px" : "200px"}
+        />
+      ),
+      description: isMobile
+        ? "Choose files: Upload name list and certificate design"
+        : "Choose files: Upload name list and the preferred document type’s design",
+    },
+
+    {
+      itemNumber: (
+        <img
+          src={Number2}
+          alt="Number 2"
+          width={isMobile ? "75px" : "120px"}
+          height={isMobile ? "102px" : "200px"}
+        />
+      ),
+      description: isMobile
+        ? "Create name field: Be sure to choose befitting fonts and drag to position"
+        : "Create name field: Be sure to choose befitting fonts and drag to position based on your design uploaded",
+    },
+    {
+      itemNumber: (
+        <img
+          src={Number3}
+          alt="Number 3"
+          width={isMobile ? "75px" : "120px"}
+          height={isMobile ? "102px" : "200px"}
+        />
+      ),
+      description:
+        "Create email duplicates: Email or download certificates for printing",
+    },
+
+    {
+      itemNumber: (
+        <img
+          src={Number4}
+          alt="Number 4"
+          width={isMobile ? "75px" : "120px"}
+          height={isMobile ? "102px" : "200px"}
+        />
+      ),
+      description:
+        "Create name field: Be sure to choose befitting fonts and drag to position",
+    },
+  ];
+
   return (
     <Grid
       container
       spacing={10}
-      p={isMobile ? 8 : 16}
-      sx={{ pl: isMobile ? 8 : "13rem", pr: isMobile ? 8 : "13rem" }}
+      p={isMobile ? 4 : 16}
+      sx={{ pl: isMobile ? 4 : "10rem", pr: isMobile ? 4 : "10rem" }}
     >
       <Grid item width="100%">
-        <Typography variant="h1" textAlign="center">
+        <Typography variant="h2" textAlign="center">
           Just 4 Easy Steps
         </Typography>
       </Grid>
@@ -82,7 +100,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
                 // pr={10}
               >
                 <Grid container alignItems="center">
-                  <Grid item xs={4} md={3}>
+                  <Grid item xs={3} md={2}>
                     <Typography
                       // variant="h1"
                       // fontSize={isMobile ? pxToRem(124) : pxToRem(200)}
@@ -95,11 +113,11 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
                       {v.itemNumber}
                     </Typography>
                   </Grid>
-                  <Grid item xs={8} md={8}>
+                  <Grid item xs={9} md={10}>
                     <Typography
                       variant="subtitle1"
-                      fontSize={isMobile ? "16px" : ""}
-                      ml={isMobile ? "30px" : ""}
+                      fontSize={isMobile ? "16px" : "24px"}
+                      ml={isMobile ? "0" : "50px"}
                     >
                       {v.description}
                     </Typography>
