@@ -32,8 +32,10 @@ const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
               fullWidth
               sx={{
                 maxWidth: 156,
+                height: 40,
                 color: "#fff",
-                fontSize: pxToRem(isMobile ? 8 : 14),
+                fontSize: pxToRem(isMobile ? 8 : 16),
+                fontWeight: 600,
               }}
               onClick={() => v.path && navigate(v.path)}
             >
