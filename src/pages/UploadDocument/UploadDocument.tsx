@@ -69,8 +69,8 @@ const UploadDocument = () => {
       >
         <Paper
           sx={{
-            width: "90%",
-            height: "500px",
+            width: isMobile ? "90%" : "60%",
+            height: "510px",
             border: "none",
             px: 4,
             display: "flex",
@@ -84,6 +84,7 @@ const UploadDocument = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              height: "460px",
             }}
           >
             <Typography
