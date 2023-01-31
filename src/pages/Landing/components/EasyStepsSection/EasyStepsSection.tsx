@@ -4,6 +4,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Box,
 } from "@mui/material";
 import { ILandingSection } from "interfaces";
 import React, { Fragment } from "react";
@@ -27,6 +28,14 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
       description: isMobile
         ? "Choose files: Upload name list and certificate design"
         : "Choose files: Upload name list and the preferred document type’s design",
+    },
+    {
+      itemNumber: "",
+      description: "",
+    },
+    {
+      itemNumber: "",
+      description: "",
     },
 
     {
@@ -54,6 +63,14 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
       description:
         "Create email duplicates: Email or download certificates for printing",
     },
+    {
+      itemNumber: "",
+      description: "",
+    },
+    {
+      itemNumber: "",
+      description: "",
+    },
 
     {
       itemNumber: (
@@ -66,6 +83,10 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
       ),
       description:
         "Create name field: Be sure to choose befitting fonts and drag to position",
+    },
+    {
+      itemNumber: "",
+      description: "",
     },
   ];
 
@@ -101,7 +122,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
               >
                 <Grid container alignItems="center">
                   <Grid item xs={3} md={2}>
-                    <Typography
+                    {/* <Typography
                       // variant="h1"
                       // fontSize={isMobile ? pxToRem(124) : pxToRem(200)}
                       color="#101549"
@@ -109,9 +130,9 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
                         textShadow:
                           "-6px -6px 8px rgba(255, 255, 255, 0.1), -2px -2px 2px rgba(255, 255, 255, 0.05), 1px 1px 2px rgba(11, 13, 39, 0.25), 8px 4px 12px rgba(11, 13, 39, 0.25)",
                       }}
-                    >
-                      {v.itemNumber}
-                    </Typography>
+                    > */}
+                    <Box> {v.itemNumber}</Box>
+                    {/* </Typography> */}
                   </Grid>
                   <Grid item xs={9} md={10}>
                     <Typography
