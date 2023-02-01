@@ -1,55 +1,60 @@
 import {
   Box,
   Button,
-  Container,
+  CircularProgress,
   Grid,
   Stack,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Dropzone from "components/Dropzone/Dropzone";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { paths } from "Routes";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
-import GoogleFontLoader from "react-google-font-loader";
 import Footer from "components/Layout/Footer";
-
-const tabItems = [
-  {
-    id: 1,
-    name: "Certificates",
-  },
-  {
-    id: 2,
-    name: "Badges",
-  },
-  {
-    id: 3,
-    name: "Tags",
-  },
-  {
-    id: 4,
-    name: "Invitations",
-  },
-];
-
-const steps = [
-  { value: 1, label: "Upload Design" },
-  { value: 2, label: "Name Field" },
-  { value: 3, label: "Upload List" },
-  { value: 4, label: "Preview" },
-];
+import { useEffect, useState } from "react";
+import { fetchSingleDocument } from "services/documents";
+import { useQuery } from "react-query";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import PageSpinner from "components/pageSpinner/PageSpinner";
 
 const IndividualDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [URLParams, setURLParams] = useState({ client: "", doc: "" });
 
+  const { data: singleDoc, isFetching: fetchingSingleDoc } = useQuery(
+    "singleDoc",
+    () => fetchSingleDocument({ ...URLParams }),
+    {
+      enabled: !!URLParams.client && !!URLParams.doc,
+      onError: (e: AxiosError) => {
+        const errData: any = e.response?.data;
+        if (errData?.message) {
+          toast(errData.message, {
+            type: "error",
+          });
+        }
+      },
+    }
+  );
+
+  useEffect(() => {
+    let params = {};
+
+    searchParams.forEach((value, param) => {
+      // @ts-ignore
+      params[param] = value;
+    });
+
+    // @ts-ignore
+    setURLParams((prevState) => ({ ...prevState, ...params }));
+  }, [searchParams]);
+
+  if (fetchingSingleDoc) return <PageSpinner />;
   return (
     <Box
       px={isMobile ? 5 : 10}
@@ -108,7 +113,11 @@ const IndividualDocument = () => {
           <Grid container spacing={10}>
             <Grid item xs={12}>
               <Box
-                sx={{ backgroundColor: "#0B0D27", p: 10, ml: isMobile ? 0 : 8 }}
+                sx={{
+                  backgroundColor: "#0B0D27",
+                  p: 10,
+                  ml: isMobile ? 0 : 8,
+                }}
               >
                 <Typography sx={{ fontSize: "24px" }}>
                   John Doe’s Certificate

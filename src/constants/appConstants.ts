@@ -1,6 +1,9 @@
 import { paths } from "Routes";
 
-export const BASE_URL = "http://206.189.30.103";
+export const MOCK_OWNER = "63959ebb849d5b9b485e419a";
+export const MOCK_DOCUMENT = "6395ad1284ec32a18cf4f569";
+
+export const BASE_URL = "http://docuplier.com/api/v1";
 
 export const ENDPOINTS = {
   products: "/products",
@@ -8,6 +11,7 @@ export const ENDPOINTS = {
   signup: "/users/signup",
   verifyOtp: "/users/verify",
   save: "/documents",
+  getAllDocs: "/documents",
 };
 
 export const DOCUMENT_TABS = [

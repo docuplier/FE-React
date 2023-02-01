@@ -19,8 +19,6 @@ const UploadDocument = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
 
-  console.log("mam", context.idempotencyKey);
-
   React.useEffect(() => {
     context?.setCurrentStep(0);
   }, []);

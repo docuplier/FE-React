@@ -8,8 +8,12 @@ import React, { FC } from "react";
 import Footer from "../Footer";
 import { read, utils } from "xlsx";
 import { validateTitles } from "utils/validateExcel";
-import { ToastContainer, toast } from "react-toastify";
-import { fetchIndenpontencyKey, fetchProducts } from "services/documents";
+import { toast } from "react-toastify";
+import {
+  fetchIndenpontencyKey,
+  fetchProducts,
+  fetchSystemDocs,
+} from "services/documents";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -48,6 +52,10 @@ const DocumentLayout: FC<IDocumentLayout> = ({
   );
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);
+  const { data: systemDocs, isFetching: fetchingSystemDocs } = useQuery(
+    "systemDocs",
+    fetchSystemDocs
+  );
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
@@ -92,7 +100,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({
     }
   };
 
-  console.log(tabItems);
+  console.log(systemDocs);
 
   return (
     <Box
@@ -107,7 +115,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({
         // pb: theme.spacing(10),
       }}
     >
-      <ToastContainer theme="dark" />
       <Grid container alignItems="center">
         <Grid item xs={12} sm={2.5} sx={{ height: "100%" }}>
           <Stack spacing={8} mt={4.5}>

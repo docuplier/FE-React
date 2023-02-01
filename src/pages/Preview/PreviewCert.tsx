@@ -46,7 +46,7 @@ const PreviewCert = ({
       });
     }
   };
-  console.log("dimen", dimension);
+
   return (
     <>
       <Box
