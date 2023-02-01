@@ -24,9 +24,9 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
             container
             spacing={4}
             sx={{
-              display: isMobile ? "flex" : "",
-              width: isMobile ? "100%" : "",
-              justifyContent: isMobile ? "center" : "",
+              display: isMobile ? "flex" : null,
+              width: isMobile ? "100%" : null,
+              justifyContent: isMobile ? "center" : null,
             }}
           >
             <Grid item xs={12} sm={12} md={8}>
