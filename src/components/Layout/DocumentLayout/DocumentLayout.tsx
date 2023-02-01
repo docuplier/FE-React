@@ -112,7 +112,12 @@ const DocumentLayout: FC<IDocumentLayout> = ({
         <Grid item xs={12} sm={2.5} sx={{ height: "100%" }}>
           <Stack spacing={8} mt={4.5}>
             <Link to="/">
-              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : 180} />
+              <img
+                src={LogoWhite}
+                alt=""
+                width={isMobile ? 126.8 : 180}
+                height={"100%"}
+              />
             </Link>
 
             {!isMobile && (
@@ -126,7 +131,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({
           </Stack>
         </Grid>
         <Grid item xs={12} sm={8.8} sx={{ height: "100%" }}>
-          <Grid container spacing={10}>
+          <Grid container spacing={10} sx={{ mt: "0px" }}>
             <Grid item xs={12}>
               <TabButtons
                 activeTab={activeTab}

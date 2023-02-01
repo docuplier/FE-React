@@ -37,12 +37,12 @@ const HeroSection = ({
         <Grid item xs={12} sm={6} md={8} display="flex" height="70%">
           <Grid container spacing={4}>
             <Grid item>
-              <img
+              {/* <img
                 src={LogoWhite}
                 alt=""
                 width={isMobile ? 126.8 : "100%"}
                 height={isMobile ? "32px" : "100%"}
-              />
+              /> */}
             </Grid>
             <Grid item sx={{ mt: isMobile ? 2 : 16 }}>
               <Typography variant="h2" mb={theme.spacing(5)}>

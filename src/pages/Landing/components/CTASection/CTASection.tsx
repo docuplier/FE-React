@@ -12,20 +12,42 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
           elevation={0}
           sx={{
             background: theme?.palette.grey[600],
-            p: isMobile ? 4 : 24,
+            p: isMobile ? 6 : 24,
             borderRadius: "12px",
             height: "346px",
             display: "flex",
             alignItems: "center",
+            justifyContent: isMobile ? "center" : "",
           }}
         >
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6} md={8}>
-              <Typography variant={isMobile ? "h4" : "h2"}>
+          <Grid
+            container
+            spacing={4}
+            sx={{
+              display: isMobile ? "flex" : "",
+              width: isMobile ? "100%" : "",
+              justifyContent: isMobile ? "center" : "",
+            }}
+          >
+            <Grid item xs={12} sm={12} md={8}>
+              <Typography
+                variant={isMobile ? "h4" : "h2"}
+                sx={{ textAlign: isMobile ? "center" : "" }}
+              >
                 What are you waiting for?
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={4}
+              sx={{
+                display: isMobile ? "flex" : "",
+                width: isMobile ? "100%" : "",
+                justifyContent: isMobile ? "center" : "",
+              }}
+            >
               <Button
                 size="large"
                 variant="contained"

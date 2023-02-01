@@ -69,8 +69,8 @@ const UploadDocument = () => {
       >
         <Paper
           sx={{
-            width: "720px",
-            height: "500px",
+            width: isMobile ? "90%" : "60%",
+            height: "510px",
             border: "none",
             px: 4,
             display: "flex",
@@ -84,9 +84,16 @@ const UploadDocument = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              height: "460px",
             }}
           >
-            <Typography sx={{ fontSize: "24px", fontWeight: 600, mt: 2 }}>
+            <Typography
+              sx={{
+                fontSize: isMobile ? "20px" : "24px",
+                fontWeight: 600,
+                mt: 2,
+              }}
+            >
               How to use Docuplier in 30 secs
             </Typography>
             <Box width="700px" height="400px">
