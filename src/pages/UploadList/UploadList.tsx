@@ -65,16 +65,16 @@ const UploadList = () => {
           <>
             <Box sx={{ my: "10px" }}>
               {" "}
-              <Typography
-                variant="body1"
-                sx={{ textAlign: isMobile ? "center" : "" }}
-              >
+              <Typography variant="body1" sx={{ textAlign: "center" }}>
                 Create and upload a list of the recipients in a spreadsheet
-                using the format below.
+                using this format below.
               </Typography>{" "}
               <Typography
-                variant="body1"
-                sx={{ textAlign: isMobile ? "center" : "" }}
+                sx={{
+                  textAlign: "center",
+                  fontSize: "0.75rem",
+                  color: "#8F9099",
+                }}
               >
                 Click the list image below to download the template, paste the
                 list of names into it & upload.
