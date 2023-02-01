@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [svgr(), react(), tsconfigPaths()],
   server: {
     proxy: {
-      "http://206.189.30.103": "http://206.189.30.103",
+      "http://docuplier.com": "http://docuplier.com",
     },
   },
 });

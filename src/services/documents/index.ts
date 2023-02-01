@@ -10,6 +10,20 @@ export const fetchIndenpontencyKey = async () => {
   const res = await Api.get(`${ENDPOINTS.indenpontencyKey}`);
   return res.data;
 };
+export const fetchSystemDocs = async () => {
+  const res = await Api.get(`${ENDPOINTS.getAllDocs}`);
+  return res.data;
+};
+export const fetchSingleDocument = async ({
+  doc,
+  client,
+}: {
+  doc?: string;
+  client?: string;
+}) => {
+  const res = await Api.get(`${ENDPOINTS.getAllDocs}/${doc}/clients/${client}`);
+  return res.data;
+};
 
 export const signupEmail = async (payload: any) => {
   const res = await Api.post(ENDPOINTS.signup, payload);

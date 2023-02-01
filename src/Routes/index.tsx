@@ -31,7 +31,7 @@ export const paths = {
   INVITATIONS_UPLOAD_LIST: "/invitations/upload-list",
   INVITATIONS_PREVIEW: "/invitations/preview",
   INVITATIONS_SUCCESS: "/invitations/success",
-  INDIVIDUAL_CERTIFICATES: "/individual-document",
+  INDIVIDUAL_CERTIFICATES: "/document",
   ORGANSATION_CERTIFICATES: "/organisation-document",
 };
 

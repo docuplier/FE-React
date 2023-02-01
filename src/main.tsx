@@ -21,6 +21,7 @@ import {
 import { BrowserRouter } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
 import "./styles.css";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -126,6 +127,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <CssBaseline enableColorScheme />
         <BrowserRouter>
           <App />
+          <ToastContainer theme="dark" />
         </BrowserRouter>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
