@@ -234,7 +234,7 @@ const AddText = () => {
                         fontSize={{
                           xs: pxToRem(10),
                           sm: pxToRem(16),
-                          md: pxToRem(25),
+                          md: pxToRem(18),
                         }}
                         sx={{
                           fontFamily: selectedFont,

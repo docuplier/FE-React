@@ -42,7 +42,10 @@ const PreUpload = ({
         <Typography
           variant="body1"
           color={fileName && "success.main"}
-          sx={{ textAlign: isMobile ? "center" : "" }}
+          sx={{
+            textAlign: isMobile ? "center" : "",
+            display: isMobile ? "none" : "block",
+          }}
         >
           {fileName ? fileName : "Drag and Drop here"}
         </Typography>
