@@ -74,6 +74,7 @@ const UploadList = () => {
                   textAlign: "center",
                   fontSize: "0.75rem",
                   color: "#8F9099",
+                  display: isMobile ? "none" : "block",
                 }}
               >
                 Click the list image below to download the template, paste the
