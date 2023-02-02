@@ -64,6 +64,7 @@ const PreUpload = ({
           fullWidth
           sx={{ maxWidth: 200 }}
           onClick={() => {
+            console.log(fileName);
             onUploadClick(fileName);
           }}
         >

@@ -18,6 +18,8 @@ import { useQuery } from "react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import PageSpinner from "components/pageSpinner/PageSpinner";
+import { format } from "date-fns";
+import PreviewCert from "pages/Preview/PreviewCert";
 
 const IndividualDocument = () => {
   const theme = useTheme();
@@ -42,6 +44,7 @@ const IndividualDocument = () => {
     }
   );
 
+  console.log(singleDoc?.data);
   useEffect(() => {
     let params = {};
 
@@ -77,34 +80,42 @@ const IndividualDocument = () => {
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issue:
                 </Typography>
-                <Typography variant="body2">STEMafrique Initiative</Typography>
+                <Typography variant="body2">
+                  {singleDoc?.data?.orgName}
+                </Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Recipient:
                 </Typography>
-                <Typography variant="body2">John Doe</Typography>
+                <Typography variant="body2">
+                  {singleDoc?.data?.client?.name}
+                </Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issue Date:
                 </Typography>
-                <Typography variant="body2">13th November, 2022</Typography>
+                <Typography variant="body2">
+                  {singleDoc?.data?.createdAt
+                    ? format(
+                        new Date(singleDoc?.data?.createdAt),
+                        "do MMMM, yyyy"
+                      )
+                    : "-"}
+                </Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Certificate ID:
                 </Typography>
-                <Typography variant="body2">b777735678a</Typography>
+                <Typography variant="body2">{singleDoc?.data?._id}</Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Description:
                 </Typography>
-                <Typography>
-                  John Doe received this certificate for participation in
-                  STEMafrique Initiative
-                </Typography>
+                <Typography>{singleDoc?.data?.emailText}</Typography>
               </Box>
             </Box>
           </Stack>
@@ -112,45 +123,29 @@ const IndividualDocument = () => {
         <Grid item xs={12} md={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <Box
-                sx={{
-                  backgroundColor: "#0B0D27",
-                  p: 10,
-                  ml: isMobile ? 0 : 8,
+              <PreviewCert
+                fullName={singleDoc?.data?.client?.name}
+                // doc={`blob:${singleDoc?.data?.image?.src}`}
+                doc={singleDoc?.data?.image?.src}
+                // doc={new Blob([singleDoc?.data?.image?.src], "image/svg+xml")}
+                isMobile={isMobile}
+                selectedFont={singleDoc?.data?.fields[0]?.fontFamily}
+                onBackClick={() => {}}
+                imgSize={{
+                  height: singleDoc?.data?.image?.height,
+                  width: singleDoc?.data?.image?.width,
                 }}
-              >
-                <Typography sx={{ fontSize: "24px" }}>
-                  John Doe’s Certificate
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                sx={{ ml: isMobile ? 0 : 8 }}
-              >
-                {" "}
-                <Button
-                  sx={{
-                    height: "48px",
-                    border: "1px solid #fff",
-                    color: "#fff",
-
-                    "& .MuiButtonBase-root": {
-                      backgroundColor: "red",
-                    },
-                    "&:hover": {
-                      border: "none",
-                    },
-                  }}
-                >
-                  Share on LinkedIn
-                </Button>
-                <Button variant="contained" sx={{ height: "48px" }}>
-                  Download PDF
-                </Button>
-              </Box>
+                dimension={{
+                  bottom: singleDoc?.data?.fields[0]?.bottom?.$numberDecimal,
+                  height: singleDoc?.data?.fields[0]?.height?.$numberDecimal,
+                  left: singleDoc?.data?.fields[0]?.left?.$numberDecimal,
+                  right: singleDoc?.data?.fields[0]?.right?.$numberDecimal,
+                  top: singleDoc?.data?.fields[0]?.top?.$numberDecimal,
+                  width: singleDoc?.data?.fields[0]?.width?.$numberDecimal,
+                  x: singleDoc?.data?.fields[0]?.x?.$numberDecimal,
+                  y: singleDoc?.data?.fields[0]?.y?.$numberDecimal,
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>
