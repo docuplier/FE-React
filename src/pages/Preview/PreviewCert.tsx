@@ -13,13 +13,16 @@ const PreviewCert = ({
   doc,
   selectedFont,
   onBackClick,
+  backText,
   dimension,
+  imgSize,
 }: {
   fullName: string;
   isMobile: boolean;
   doc: string;
   selectedFont: string;
   onBackClick: () => void;
+  backText?: string;
   imgSize: { height: number; width: number };
   dimension: {
     bottom: number;
@@ -40,8 +43,19 @@ const PreviewCert = ({
     if (input) {
       html2canvas(input).then((canvas: any) => {
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, "JPEG", 0, 0, 0, 0);
+        console.log(imgData);
+        const pdf = new jsPDF({
+          orientation: "landscape",
+        });
+
+        pdf.addImage(
+          imgData,
+          doc.includes(".png") ? "PNG" : "JPEG",
+          0,
+          0,
+          0,
+          0
+        );
         pdf.save("download.pdf");
       });
     }
@@ -79,12 +93,10 @@ const PreviewCert = ({
               position: "relative",
               margin: "auto",
               textAlign: "center",
-              //     objectFit: "contain",
               maxHeight: "100%",
               maxWidth: "100%",
             }}
-            // width={isMobile ? "280px" : "100%"}
-            // height={393}
+            crossOrigin="anonymous"
           />
           <Box
             width="60%"
@@ -175,7 +187,7 @@ const PreviewCert = ({
           }}
           onClick={onBackClick}
         >
-          Back
+          {backText || "Back"}
         </Button>
         <Button
           variant="contained"

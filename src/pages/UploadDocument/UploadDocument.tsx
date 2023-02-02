@@ -28,6 +28,20 @@ const UploadDocument = () => {
   // }, 5000);
 
   const handleUpload = async (data: File) => {
+    if (data.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.readAsDataURL(data);
+      reader.onloadend = (e) => {
+        context?.setUploaded((prev: any) => ({
+          ...prev,
+          doc: e?.target?.result,
+          image: {},
+          dataFile: data,
+        }));
+        navigate(getPathByName(context.activeTab, 1));
+      };
+      return;
+    }
     const imgUrl = URL.createObjectURL(data);
     const { width, height } = await getImageSize(imgUrl);
     context?.setUploaded((prev: any) => ({
@@ -45,7 +59,7 @@ const UploadDocument = () => {
   return (
     <>
       <Dropzone
-        accept={{ "image/jpeg": [], "image/png": [], " .pdf": [] }}
+        accept={{ "image/jpeg": [], "image/png": [], "application/pdf": [] }}
         onUpload={handleUpload}
         theme={theme}
         title="PDF, PNG, JPEG files are supported"

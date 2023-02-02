@@ -9,6 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       "http://docuplier.com": "http://docuplier.com",
+      "https://res.cloudinary.com": "https://res.cloudinary.com",
     },
   },
 });

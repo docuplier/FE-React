@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { Document, Page } from "react-pdf";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { paths } from "Routes";
@@ -112,6 +113,8 @@ const AddText = () => {
     setSelectedFont(val);
   };
 
+  console.log(context?.uploaded?.doc);
+
   return (
     <Stack spacing={12}>
       <Box display="flex" width="100%" justifyContent="center">
@@ -174,19 +177,25 @@ const AddText = () => {
         className="long-dashed-border"
       >
         <Box ref={ref} position="relative">
-          <img
-            src={context?.uploaded?.doc}
-            style={{
-              position: "relative",
-              margin: "auto",
-              textAlign: "center",
-              objectFit: "contain",
-              maxHeight: "100%",
-              maxWidth: "100%",
-            }}
-            // width={isMobile ? "280px" : "555px"}
-            // height="393px"
-          />
+          {context?.uploaded?.dataFile?.type === "application/pdf" ? (
+            <Document file={context?.uploaded?.doc}>
+              <Page />
+            </Document>
+          ) : (
+            <img
+              src={context?.uploaded?.doc}
+              style={{
+                position: "relative",
+                margin: "auto",
+                textAlign: "center",
+                objectFit: "contain",
+                maxHeight: "100%",
+                maxWidth: "100%",
+              }}
+              // width={isMobile ? "280px" : "555px"}
+              // height="393px"
+            />
+          )}
           <Box
             //  component="span"
             width="60%"
