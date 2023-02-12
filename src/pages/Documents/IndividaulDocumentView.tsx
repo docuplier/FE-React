@@ -145,6 +145,7 @@ const IndividualDocument = () => {
                   x: singleDoc?.data?.fields[0]?.x?.$numberDecimal,
                   y: singleDoc?.data?.fields[0]?.y?.$numberDecimal,
                 }}
+                docType={""}
               />
             </Grid>
           </Grid>

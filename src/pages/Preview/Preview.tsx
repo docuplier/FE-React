@@ -268,6 +268,7 @@ const Preview = () => {
             width: context?.uploaded?.image?.width,
           }}
           dimension={context?.uploaded?.dimension}
+          docType={context?.uploaded?.dataFile?.type}
         />
       ) : (
         <PreviewExcelTable

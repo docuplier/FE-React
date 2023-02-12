@@ -12,6 +12,9 @@ import { getImageSize } from "react-image-size";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { getPathByName } from "utils/getPathsByName";
 
+const w = window as any;
+const PDFJS = w.pdfjsLib;
+
 const UploadDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -29,17 +32,16 @@ const UploadDocument = () => {
 
   const handleUpload = async (data: File) => {
     if (data.type === "application/pdf") {
-      const reader = new FileReader();
-      reader.readAsDataURL(data);
-      reader.onloadend = (e) => {
-        context?.setUploaded((prev: any) => ({
-          ...prev,
-          doc: e?.target?.result,
-          image: {},
-          dataFile: data,
-        }));
-        navigate(getPathByName(context.activeTab, 1));
-      };
+      const uri = URL.createObjectURL(data);
+      var _PDF_DOC = await PDFJS.getDocument({ url: uri });
+      await context?.setUploaded((prev: any) => ({
+        ...prev,
+        pdfDoc: _PDF_DOC,
+        doc: "",
+        image: { src: data },
+        dataFile: data,
+      }));
+      navigate(getPathByName(context.activeTab, 1));
       return;
     }
     const imgUrl = URL.createObjectURL(data);
