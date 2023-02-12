@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { PDFtoIMG } from "react-pdf-to-image";
 import { Document, Page } from "react-pdf";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -23,8 +24,16 @@ import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
 import borderImg from "../../assets/border.png";
 import { getPathByName } from "utils/getPathsByName";
+import PageSpinner from "components/pageSpinner/PageSpinner";
 
 const AddText = () => {
+  const pdfWrapper: any = useRef(null);
+
+  const [width, setWidth] = React.useState(0);
+  const [images, setImages] = React.useState<string[]>([]);
+  const [height, setHeight] = React.useState(0);
+
+  const [pdfPageWidth, setPdfPageWidth] = useState(0);
   const [dimension, setDimension] = useState({
     top: 0,
     left: 0,
@@ -104,8 +113,37 @@ const AddText = () => {
     });
   };
 
+  async function renderPage() {
+    const imagesList: string[] = [];
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("className", "canv");
+
+    for (let i = 1; i <= context?.uploaded?.pdfDoc?.numPages; i++) {
+      var page = await context?.uploaded?.pdfDoc?.getPage(i);
+      var viewport = page.getViewport({ scale: 1 });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      var render_context = {
+        canvasContext: canvas.getContext("2d"),
+        viewport: viewport,
+      };
+      console.log("page lenght", context?.uploaded?.pdfDoc);
+      setWidth(viewport.width);
+      setHeight(viewport.height);
+      await page.render(render_context).promise;
+      let img = canvas.toDataURL("image/png");
+      imagesList.push(img);
+    }
+    context?.setUploaded((prev: any) => ({
+      ...prev,
+      doc: imagesList[0],
+    }));
+  }
+
   React.useEffect(() => {
     context?.setCurrentStep(1);
+
+    if (context?.uploaded?.dataFile?.type === "application/pdf") renderPage();
   }, []);
 
   const handleFontChange = (evt: any) => {
@@ -177,25 +215,19 @@ const AddText = () => {
         className="long-dashed-border"
       >
         <Box ref={ref} position="relative">
-          {context?.uploaded?.dataFile?.type === "application/pdf" ? (
-            <Document file={context?.uploaded?.doc}>
-              <Page />
-            </Document>
-          ) : (
-            <img
-              src={context?.uploaded?.doc}
-              style={{
-                position: "relative",
-                margin: "auto",
-                textAlign: "center",
-                objectFit: "contain",
-                maxHeight: "100%",
-                maxWidth: "100%",
-              }}
-              // width={isMobile ? "280px" : "555px"}
-              // height="393px"
-            />
-          )}
+          <img
+            src={context?.uploaded?.doc}
+            style={{
+              position: "relative",
+              margin: "auto",
+              textAlign: "center",
+              objectFit: "contain",
+              maxHeight: "100%",
+              maxWidth: "100%",
+            }}
+            // width={isMobile ? "280px" : "555px"}
+            // height="393px"
+          />
           <Box
             //  component="span"
             width="60%"

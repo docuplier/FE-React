@@ -16,6 +16,7 @@ const PreviewCert = ({
   backText,
   dimension,
   imgSize,
+  docType,
 }: {
   fullName: string;
   isMobile: boolean;
@@ -34,6 +35,7 @@ const PreviewCert = ({
     x: number;
     y: number;
   };
+  docType: string;
 }) => {
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement | null>(null);
@@ -46,6 +48,7 @@ const PreviewCert = ({
         console.log(imgData);
         const pdf = new jsPDF({
           orientation: "landscape",
+          format: docType === "application/pdf" ? "a3" : "a4",
         });
 
         pdf.addImage(
