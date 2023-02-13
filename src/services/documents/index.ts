@@ -25,6 +25,12 @@ export const fetchSingleDocument = async ({
   return res.data;
 };
 
+export const fetchOrgDocument = async ({ orgId }: { orgId?: string }) => {
+  const res = await Api.get(`${ENDPOINTS.getAllDocs}/${orgId}`);
+  console.log("res", res.data);
+  return res.data;
+};
+
 export const signupEmail = async (payload: any) => {
   const res = await Api.post(ENDPOINTS.signup, payload);
   return res.data;
