@@ -75,7 +75,6 @@ const Dropzone = ({
       <PreUpload
         theme={theme}
         onUploadClick={(data?: string) => {
-          console.log("drop", data);
           data ? onUpload(acceptedFiles[0]) : open && open!();
         }}
         fileName={file?.name || ""}

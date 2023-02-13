@@ -44,7 +44,6 @@ const IndividualDocument = () => {
     }
   );
 
-  console.log(singleDoc?.data);
   useEffect(() => {
     let params = {};
 
