@@ -6,6 +6,7 @@ import Draggable from "react-draggable";
 import { jsPDF } from "jspdf";
 import { pxToRem } from "utils/pxToRem";
 import html2canvas from "html2canvas";
+import LogoWhite from "assets/logo-white.svg";
 
 const PreviewCert = ({
   fullName,
@@ -17,12 +18,13 @@ const PreviewCert = ({
   dimension,
   imgSize,
   docType,
+  separateButtons,
 }: {
   fullName: string;
   isMobile: boolean;
   doc: string;
   selectedFont: string;
-  onBackClick: () => void;
+  onBackClick: (data: any) => void;
   backText?: string;
   imgSize: { height: number; width: number };
   dimension: {
@@ -36,6 +38,7 @@ const PreviewCert = ({
     y: number;
   };
   docType: string;
+  separateButtons?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement | null>(null);
@@ -55,6 +58,18 @@ const PreviewCert = ({
       });
     }
   };
+  const handleBack = async (e: any) => {
+    e.preventDefault();
+    const input = document.getElementById("certificate-container");
+    if (input) {
+      html2canvas(input, { useCORS: true }).then((canvas: any) => {
+        const imgData = canvas.toDataURL("image/png");
+
+        onBackClick(imgData);
+        // pdf.save("download.pdf");
+      });
+    }
+  };
 
   return (
     <>
@@ -62,6 +77,7 @@ const PreviewCert = ({
         sx={{
           background: "#0B0D27",
           borderRadius: "12px",
+          position: "relative",
           mt: 2,
         }}
         p={10}
@@ -162,12 +178,26 @@ const PreviewCert = ({
             </Box>
           </Box>
         )}
+
+        <Typography
+          variant="body2"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "auto",
+            marginRight: "90px",
+            marginTop: "24px",
+          }}
+        >
+          Distributed by:{" "}
+          <img src={LogoWhite} style={{ marginLeft: 6 }} alt="" height={16} />
+        </Typography>
       </Box>
 
       <Box
         width="100%"
         display="flex"
-        justifyContent="space-between"
+        justifyContent={separateButtons ? "space-between" : "center"}
         marginTop="30px"
         sx={{
           flexWrap: "Wrap",
@@ -180,6 +210,7 @@ const PreviewCert = ({
             color: "#fff",
             px: 14,
             mb: 4,
+            mr: 16,
 
             "@media screen and (max-width:768px)": {
               px: 6,
@@ -188,7 +219,7 @@ const PreviewCert = ({
               border: "none",
             },
           }}
-          onClick={onBackClick}
+          onClick={handleBack}
         >
           {backText || "Back"}
         </Button>
