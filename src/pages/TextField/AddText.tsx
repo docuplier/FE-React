@@ -127,7 +127,6 @@ const AddText = () => {
         canvasContext: canvas.getContext("2d"),
         viewport: viewport,
       };
-      console.log("page lenght", context?.uploaded?.pdfDoc);
       setWidth(viewport.width);
       setHeight(viewport.height);
       await page.render(render_context).promise;
@@ -150,8 +149,6 @@ const AddText = () => {
     const val = evt.target.value;
     setSelectedFont(val);
   };
-
-  console.log(context?.uploaded?.doc);
 
   return (
     <Stack spacing={12}>

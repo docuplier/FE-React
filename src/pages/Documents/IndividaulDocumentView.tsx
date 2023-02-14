@@ -44,7 +44,6 @@ const IndividualDocument = () => {
     }
   );
 
-  console.log(singleDoc?.data);
   useEffect(() => {
     let params = {};
 
@@ -56,6 +55,14 @@ const IndividualDocument = () => {
     // @ts-ignore
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
+
+  const shareImage = () => {
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+        singleDoc?.data?.image?.src
+      )}`
+    );
+  };
 
   if (fetchingSingleDoc) return <PageSpinner />;
   return (
@@ -125,12 +132,13 @@ const IndividualDocument = () => {
             <Grid item xs={12}>
               <PreviewCert
                 fullName={singleDoc?.data?.client?.name}
+                backText="Share on LinkedIn"
                 // doc={`blob:${singleDoc?.data?.image?.src}`}
                 doc={singleDoc?.data?.image?.src}
                 // doc={new Blob([singleDoc?.data?.image?.src], "image/svg+xml")}
                 isMobile={isMobile}
                 selectedFont={singleDoc?.data?.fields[0]?.fontFamily}
-                onBackClick={() => {}}
+                onBackClick={shareImage}
                 imgSize={{
                   height: singleDoc?.data?.image?.height,
                   width: singleDoc?.data?.image?.width,
