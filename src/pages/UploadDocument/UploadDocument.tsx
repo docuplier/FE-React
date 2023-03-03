@@ -74,7 +74,7 @@ const UploadDocument = () => {
           display: "flex",
           width: "100%",
           justifyContent: "center",
-          mt: 20,
+          alignItems: "center",
           border: "none",
           outline: "0px",
           boxShadow: "none",
@@ -83,8 +83,8 @@ const UploadDocument = () => {
       >
         <Paper
           sx={{
-            width: isMobile ? "90%" : "60%",
-            height: "510px",
+            width: isMobile ? "90%" : "50%",
+            height: "480px",
             border: "none",
             px: 4,
             display: "flex",
@@ -110,13 +110,14 @@ const UploadDocument = () => {
             >
               How to use Docuplier in 30 secs
             </Typography>
-            <Box width="700px" height="400px">
+            <Box width="700px" height="380px">
               hii
             </Box>
           </Box>
           <Box
             width="130px"
             height="40px"
+            mb={4}
             display={"flex"}
             justifyContent="center"
             alignItems={"center"}

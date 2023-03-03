@@ -25,8 +25,8 @@ export const fetchSingleDocument = async ({
   return res.data;
 };
 
-export const fetchOrgDocument = async ({ orgId }: { orgId?: string }) => {
-  const res = await Api.get(`${ENDPOINTS.getAllDocs}/${orgId}`);
+export const fetchOrgDocument = async ({ doc }: { doc?: string }) => {
+  const res = await Api.get(`${ENDPOINTS.getAllDocs}/${doc}`);
   console.log("res", res.data);
   return res.data;
 };

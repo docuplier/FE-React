@@ -100,8 +100,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({
     }
   };
 
-  console.log(systemDocs);
-
   return (
     <Box
       pl={isMobile ? 4 : 10}

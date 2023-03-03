@@ -269,6 +269,7 @@ const Preview = () => {
           }}
           dimension={context?.uploaded?.dimension}
           docType={context?.uploaded?.dataFile?.type}
+          separateButtons
         />
       ) : (
         <PreviewExcelTable
