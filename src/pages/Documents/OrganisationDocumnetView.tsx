@@ -102,8 +102,6 @@ const OrgansationDocumentView = () => {
     },
   ];
 
-  console.log("org", orgDoc);
-
   useEffect(() => {
     let params = {};
 
@@ -116,60 +114,6 @@ const OrgansationDocumentView = () => {
     // @ts-ignore
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
-
-  // const list = orgDoc?.data?.map((prop: any) => {
-  //   let val = {};
-  //   if (typeof prop?.clients == "object") {
-  //     val = prop?.clients;
-  //   }
-
-  //   //i = 0; i ++ ; i < )
-  //   console.log("val", val);
-  //   return val;
-  // });
-
-  // console.log("list", list);
-
-  // function createData(prop: any) {
-  //   let checkVal = [];
-  //   if (typeof prop?.clients == "object") {
-  //     for (let val of prop?.clients) {
-  //       //  const { name, email } = val;
-  //       //  checkVal = { name, email };
-  //       checkVal.push(val);
-  //       //  console.log("name", name, email);
-  //       //  console.log("for", val);
-  //     }
-  //   }
-  //   // let newVal = checkVal?.map(({ name, email }) => {
-  //   //   console.log("name", { name, email });
-  //   //   return { name, email };
-  //   // });
-  //   // console.log("now", newVal);
-  //   // // let newChange: any = [];
-  //   // // if (newVal.length !== 0) {
-  //   // //   newVal?.map(({ name, email }) => {
-  //   // //     console.log("email", { name, email });
-  //   // //     newChange.push({ name, email });
-  //   // //     return newChange;
-  //   // //   });
-  //   // // }
-  //   // // console.log("newChange", newChange);
-  //   // console.log("newVal", newVal);
-  //   return checkVal;
-  // }
-
-  // console.log("list", list);
-
-  //  let checkVal;
-  //  if (typeof prop?.clients == "object") {
-  //    for (let val of prop?.clients) {
-  //      const { name, email } = val;
-  //      checkVal = { name, email };
-  //      console.log("name", name, email);
-  //      console.log("for", val);
-  //    }
-  //  }
 
   return (
     <Box
