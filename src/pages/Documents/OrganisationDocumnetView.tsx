@@ -20,11 +20,16 @@ import Dropzone from "components/Dropzone/Dropzone";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
 import Footer from "components/Layout/Footer";
+import { AxiosError } from "axios";
+import { fetchOrgDocument } from "services/documents";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 
 const tabItems = [
   {
@@ -56,12 +61,28 @@ const OrgansationDocumentView = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [searchParams] = useSearchParams();
+  const [URLParams, setURLParams] = useState({ doc: "" });
 
-  function createData(name: string, email: string, view: string) {
-    return { name, email, view };
-  }
+  console.log("url", URLParams);
 
   const rows = ["Recipient Name", "Recipient Email", "Action"];
+
+  const { data: orgDoc, isFetching: fetchingSingleDoc } = useQuery(
+    "orgDocument",
+    () => fetchOrgDocument({ ...URLParams }),
+    {
+      enabled: !!URLParams.doc,
+      onError: (e: AxiosError) => {
+        const errData: any = e.response?.data;
+        if (errData?.message) {
+          toast(errData.message, {
+            type: "error",
+          });
+        }
+      },
+    }
+  );
 
   const data = [
     {
@@ -81,9 +102,18 @@ const OrgansationDocumentView = () => {
     },
   ];
 
-  const list = data?.map(({ name, email, view }) =>
-    createData(name, email, view)
-  );
+  useEffect(() => {
+    let params = {};
+
+    searchParams.forEach((value, param) => {
+      console.log("val", value, param);
+      // @ts-ignore
+      params[param] = value;
+    });
+
+    // @ts-ignore
+    setURLParams((prevState) => ({ ...prevState, ...params }));
+  }, [searchParams]);
 
   return (
     <Box
@@ -205,7 +235,7 @@ const OrgansationDocumentView = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {list.map((row) => (
+                        {/* {list.map((row) => (
                           <TableRow
                             key={row.name}
                             sx={{
@@ -223,7 +253,7 @@ const OrgansationDocumentView = () => {
                               {row.view}
                             </TableCell>
                           </TableRow>
-                        ))}
+                        ))} */}
                       </TableBody>
                     </Table>
                   </TableContainer>
