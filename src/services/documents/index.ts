@@ -25,8 +25,18 @@ export const fetchSingleDocument = async ({
   return res.data;
 };
 
-export const fetchOrgDocument = async ({ doc }: { doc?: string }) => {
-  const res = await Api.get(`${ENDPOINTS.getAllDocs}/${doc}`);
+export const fetchOrgDocument = async ({
+  product,
+  owner,
+}: {
+  product?: string;
+  owner?: string;
+}) => {
+  const res = await Api.get(
+    `${ENDPOINTS.getAllDocs}${product ? "?product=" + product : ""}${
+      owner ? "&owner=" + owner : ""
+    }`
+  );
   return res.data;
 };
 

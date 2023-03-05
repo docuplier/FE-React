@@ -15,10 +15,13 @@ import {
   TableRow,
   TableHead,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
+import { utils, write } from "xlsx";
+import { saveAs } from "file-saver";
 import LogoWhite from "assets/logo-white.svg";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { paths } from "Routes";
@@ -30,6 +33,7 @@ import { fetchOrgDocument } from "services/documents";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
+import { format } from "date-fns";
 
 const tabItems = [
   {
@@ -62,17 +66,17 @@ const OrgansationDocumentView = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchParams] = useSearchParams();
-  const [URLParams, setURLParams] = useState({ doc: "" });
+  const [URLParams, setURLParams] = useState({ product: "", owner: "" });
 
   console.log("url", URLParams);
 
   const rows = ["Recipient Name", "Recipient Email", "Action"];
 
-  const { data: orgDoc, isFetching: fetchingSingleDoc } = useQuery(
+  const { data: orgDoc, isFetching: fetchingOrgDoc } = useQuery(
     "orgDocument",
     () => fetchOrgDocument({ ...URLParams }),
     {
-      enabled: !!URLParams.doc,
+      enabled: !!URLParams.product && !!URLParams.owner,
       onError: (e: AxiosError) => {
         const errData: any = e.response?.data;
         if (errData?.message) {
@@ -115,6 +119,26 @@ const OrgansationDocumentView = () => {
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
 
+  const exportAsExcel = () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
+    const ext = ".xlsx";
+    const objKeys = Object.keys(orgDoc?.data[0]?.clients[0]);
+
+    const body = orgDoc?.data[0]?.clients.map((v: any) => {
+      let itm: any = {};
+      objKeys.forEach((key) => {
+        itm[key.replaceAll("_", " ")?.toUpperCase()] = v[key];
+      });
+      return itm;
+    });
+    const ws = utils.json_to_sheet(body);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    saveAs(data, `recipients${ext}`);
+  };
+
   return (
     <Box
       px={isMobile ? 5 : 10}
@@ -135,36 +159,39 @@ const OrgansationDocumentView = () => {
               <Typography variant="body1">General Information</Typography>
               <Box display="flex" mt={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
-                  Issue:
+                  Issuer:
                 </Typography>
-                <Typography variant="body2">STEMafrique Initiative</Typography>
+                <Typography variant="body2">
+                  {orgDoc?.data[0]?.orgName}
+                </Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
-                  Recipient:
+                  Number of Recipients:
                 </Typography>
-                <Typography variant="body2">John Doe</Typography>
+                <Typography variant="body2">
+                  {orgDoc?.data[0]?.clients?.length}
+                </Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issue Date:
                 </Typography>
-                <Typography variant="body2">13th November, 2022</Typography>
-              </Box>
-              <Box display="flex" my={4}>
-                <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
-                  Certificate ID:
+                <Typography variant="body2">
+                  {orgDoc?.data[0]?.createdAt
+                    ? format(
+                        new Date(orgDoc?.data[0]?.createdAt),
+                        "do MMMM, yyyy"
+                      )
+                    : "-"}
                 </Typography>
-                <Typography variant="body2">b777735678a</Typography>
               </Box>
+
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Description:
                 </Typography>
-                <Typography>
-                  John Doe received this certificate for participation in
-                  STEMafrique Initiative
-                </Typography>
+                <Typography>{orgDoc?.data[0]?.emailText}</Typography>
               </Box>
             </Box>
           </Stack>
@@ -193,67 +220,110 @@ const OrgansationDocumentView = () => {
                     }}
                   >
                     {" "}
-                    <Button variant="contained" sx={{ height: "48px" }}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      onClick={() => exportAsExcel()}
+                    >
                       Download All & Print
                     </Button>
                   </Box>
                 </Box>
                 <Box
                   sx={{
-                    backgroundColor: "#0B0D27",
+                    backgroundColor: theme.palette.primary.dark,
                     mt: 8,
                     mb: 4,
-                    overflowY: "scroll",
-                    scrollbarWidth: "thin",
-                    msOverflowStyle: "auto",
-                    "::-webkit-scrollbar": {
-                      display: "block",
-                      width: "4px",
-                      paddingBottom: "15rem",
-                      height: "5px !important",
-                      backgroundColor: "#7682F5",
-                    },
-
-                    "::-webkit-scrollbar-thumb": {
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                      height: "5px",
-                    },
                   }}
                 >
-                  {" "}
-                  <TableContainer component={Paper}>
+                  <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
                     <Table
-                      sx={{ minWidth: isMobile ? 300 : 650 }}
-                      aria-label="simple table"
+                      stickyHeader
+                      sx={{
+                        minWidth: isMobile ? 300 : 650,
+                        backgroundColor: (theme) => theme.palette.primary.dark,
+                        height: "0vh",
+                      }}
+                      aria-label="Orgnanisation clients' table"
                     >
                       <TableHead>
                         <TableRow>
-                          {rows?.map((props) => (
-                            <TableCell>{props}</TableCell>
+                          {rows.map((row) => (
+                            <TableCell
+                              sx={{
+                                backgroundColor: (theme) =>
+                                  theme.palette.primary.dark,
+                              }}
+                              key={row}
+                            >
+                              {row}
+                            </TableCell>
                           ))}
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {/* {list.map((row) => (
-                          <TableRow
-                            key={row.name}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.email}</TableCell>
+                        {fetchingOrgDoc ? (
+                          <TableRow>
                             <TableCell
-                              sx={{
-                                textDecoration: "underline",
-                                cursor: "pointer",
-                              }}
+                              component="td"
+                              scope="row"
+                              colSpan={3}
+                              rowSpan={3}
                             >
-                              {row.view}
+                              <Box
+                                width="100%"
+                                height="400px"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                              >
+                                <CircularProgress color="primary" />
+                              </Box>
                             </TableCell>
                           </TableRow>
-                        ))} */}
+                        ) : (
+                          <>
+                            {orgDoc?.data[0]?.clients?.map((row: any) => (
+                              <TableRow
+                                key={row?._id}
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+
+                                  padding: 0,
+                                }}
+                              >
+                                <TableCell component="td" scope="row">
+                                  {row?.name || "-"}
+                                </TableCell>
+                                <TableCell>{row?.email || "-"}</TableCell>
+                                <TableCell>
+                                  <Button
+                                    variant="text"
+                                    size="small"
+                                    sx={{
+                                      color: theme.palette.common.white,
+                                      p: 0,
+                                      minWidth: "auto",
+                                      "&:hover": {
+                                        background: "transparent",
+                                        textDecoration: "underline",
+                                      },
+                                    }}
+                                    onClick={() =>
+                                      navigate(
+                                        `${paths.INDIVIDUAL_CERTIFICATES}?doc=${orgDoc?.data[0]?._id}&client=${row?._id}`
+                                      )
+                                    }
+                                  >
+                                    View
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </>
+                        )}
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -269,6 +339,7 @@ const OrgansationDocumentView = () => {
         <Button
           variant="contained"
           sx={{ height: "56px", width: "100%", fontSize: "1rem" }}
+          onClick={() => exportAsExcel()}
         >
           Download All & Print
         </Button>
