@@ -124,3 +124,8 @@ function App() {
 }
 
 export default App;
+
+/* 
+{"status":"success","message":"Document created successfully.","data":{"_id":"63b0029fc0768b25e2de9faf","idempotencyKey":"63959ebb849d5b9b485e419a","orgName":"Olivenelson","emailText":"Please find the attached email.","image":{"src":"https://res.cloudinary.com/dmgelvnbk/image/upload/v1672479391/fcw9vpxu1fceft0xbv0j.png","width":555,"height":393},"product":"63959ebb849d5b9b485e419a","owner":"63b0028dc0768b25e2de9fa5","fields":[{"fieldName":"name","fontFamily":"'Nunito', sans-serif;","width":{"$numberDecimal":"555"},"height":{"$numberDecimal":"400.20001220703125"},"top":{"$numberDecimal":"199"},"bottom":{"$numberDecimal":"168.20001220703125"},"left":{"$numberDecimal":"98"},"right":{"$numberDecimal":"105.5"},"x":{"$numberDecimal":"98"},"y":{"$numberDecimal":"199"}}],"clients":[{"name":"Ugonna Chiamaka Judith","email":"chiamakajudith1@gmail.com","_id":"63b0029fc0768b25e2de9fb0"},{"name":"Lilian","email":"lilianbash@yopmail.com","_id":"63b0029fc0768b25e2de9fb1"},{"name":"Chibuike","email":"ubeikejah@yopmail.com","_id":"63b0029fc0768b25e2de9fb2"},{"name":"Henry","email":"reasonerhenry@yopmail.com","_id":"63b0029fc0768b25e2de9fb3"}],"createdAt":"2022-12-31T09:36:31.914Z","updatedAt":"2022-12-31T09:36:31.914Z","__v":0}}
+
+*/

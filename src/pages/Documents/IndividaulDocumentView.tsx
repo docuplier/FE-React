@@ -85,7 +85,7 @@ const IndividualDocument = () => {
               <Typography variant="body1">General Information</Typography>
               <Box display="flex" mt={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
-                  Issue:
+                  Issuer:
                 </Typography>
                 <Typography variant="body2">
                   {singleDoc?.data?.orgName}

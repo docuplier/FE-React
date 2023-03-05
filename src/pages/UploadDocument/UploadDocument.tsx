@@ -5,12 +5,14 @@ import {
   Paper,
   Typography,
   Box,
+  Button,
 } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
 import React, { useState } from "react";
 import { getImageSize } from "react-image-size";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { getPathByName } from "utils/getPathsByName";
+import ReactPlayer from "react-player";
 
 const w = window as any;
 const PDFJS = w.pdfjsLib;
@@ -84,7 +86,7 @@ const UploadDocument = () => {
         <Paper
           sx={{
             width: isMobile ? "90%" : "50%",
-            height: "480px",
+            height: "490px",
             border: "none",
             px: 4,
             display: "flex",
@@ -98,37 +100,41 @@ const UploadDocument = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              height: "460px",
             }}
+            height="470px"
+            width="100%"
+            mb={5}
           >
             <Typography
               sx={{
                 fontSize: isMobile ? "20px" : "24px",
                 fontWeight: 600,
-                mt: 2,
+                my: 2,
               }}
             >
               How to use Docuplier in 30 secs
             </Typography>
-            <Box width="700px" height="380px">
-              hii
+            <Box width="100%" height="100%" position="relative">
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=mjkvZbSRkOg"
+                playing
+                controls
+                width="100%"
+                height="100%"
+                style={{ position: "absolute", top: 0, left: 0 }}
+              />
             </Box>
           </Box>
           <Box
-            width="130px"
-            height="40px"
             mb={4}
-            display={"flex"}
+            display="flex"
             justifyContent="center"
             alignItems={"center"}
-            sx={{
-              border: "1px solid #fff",
-              borderRadius: 2,
-              cursor: "pointer",
-            }}
-            onClick={handleClose}
           >
-            <Typography> Skip Intro Video</Typography>
+            <Button variant="outlined" onClick={handleClose}>
+              {" "}
+              Skip Intro Video
+            </Button>
           </Box>
         </Paper>
       </Modal>

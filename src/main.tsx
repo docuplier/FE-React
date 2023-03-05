@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import {
   createTheme,
   CssBaseline,
+  GlobalStyles,
   responsiveFontSizes,
   Theme,
   ThemeProvider,
@@ -125,6 +126,25 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline enableColorScheme />
+        <GlobalStyles
+          styles={{
+            scrollbarWidth: "thin",
+            msOverflowStyle: "auto",
+            "::-webkit-scrollbar": {
+              display: "block",
+              width: "4px",
+              paddingBottom: "15rem",
+              height: "5px !important",
+              backgroundColor: "transparent",
+            },
+
+            "::-webkit-scrollbar-thumb": {
+              backgroundColor: "#7682F5",
+              borderRadius: "10px",
+              height: "5px",
+            },
+          }}
+        />
         <BrowserRouter>
           <App />
           <ToastContainer theme="dark" />
