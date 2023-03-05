@@ -1,10 +1,8 @@
 import {
   Box,
   Button,
-  Container,
   Grid,
   Stack,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -17,16 +15,12 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
-import Dropzone from "components/Dropzone/Dropzone";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
 import LogoWhite from "assets/logo-white.svg";
-import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
-import GoogleFontLoader from "react-google-font-loader";
 import Footer from "components/Layout/Footer";
 import { AxiosError } from "axios";
 import { fetchOrgDocument } from "services/documents";
@@ -35,40 +29,12 @@ import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { format } from "date-fns";
 
-const tabItems = [
-  {
-    id: 1,
-    name: "Certificates",
-  },
-  {
-    id: 2,
-    name: "Badges",
-  },
-  {
-    id: 3,
-    name: "Tags",
-  },
-  {
-    id: 4,
-    name: "Invitations",
-  },
-];
-
-const steps = [
-  { value: 1, label: "Upload Design" },
-  { value: 2, label: "Name Field" },
-  { value: 3, label: "Upload List" },
-  { value: 4, label: "Preview" },
-];
-
 const OrgansationDocumentView = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchParams] = useSearchParams();
   const [URLParams, setURLParams] = useState({ product: "", owner: "" });
-
-  console.log("url", URLParams);
 
   const rows = ["Recipient Name", "Recipient Email", "Action"];
 
@@ -110,7 +76,6 @@ const OrgansationDocumentView = () => {
     let params = {};
 
     searchParams.forEach((value, param) => {
-      console.log("val", value, param);
       // @ts-ignore
       params[param] = value;
     });
