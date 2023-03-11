@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Draggable from "react-draggable";
 import { jsPDF } from "jspdf";
 import { pxToRem } from "utils/pxToRem";
+import { useOutletContext } from "react-router-dom";
 import html2canvas from "html2canvas";
 import LogoWhite from "assets/logo-white.svg";
 
@@ -19,11 +20,13 @@ const PreviewCert = ({
   imgSize,
   docType,
   separateButtons,
+  selectedFontSize,
 }: {
   fullName: string;
   isMobile: boolean;
   doc: string;
   selectedFont: string;
+  selectedFontSize: number;
   onBackClick: (data: any) => void;
   backText?: string;
   imgSize: { height: number; width: number };
@@ -40,6 +43,8 @@ const PreviewCert = ({
   docType: string;
   separateButtons?: boolean;
 }) => {
+  const context = useOutletContext();
+  console.log("cont", context);
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement | null>(null);
   const printDocument = async (e: any) => {
@@ -158,9 +163,9 @@ const PreviewCert = ({
                     >
                       <Typography
                         fontSize={{
-                          xs: pxToRem(10),
-                          sm: pxToRem(16),
-                          md: pxToRem(25),
+                          xs: pxToRem(selectedFontSize),
+                          sm: pxToRem(selectedFontSize),
+                          md: pxToRem(selectedFontSize),
                         }}
                         sx={{
                           fontFamily: selectedFont,

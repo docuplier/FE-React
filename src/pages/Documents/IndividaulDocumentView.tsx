@@ -55,11 +55,11 @@ const IndividualDocument = () => {
     // @ts-ignore
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
-
+  console.log("dociiis", singleDoc);
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        singleDoc?.data?.image?.src
+        `https://decuplier.netlify.app/certifcates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
       )}`
     );
   };

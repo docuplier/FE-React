@@ -53,7 +53,9 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
                 variant="contained"
                 fullWidth
                 sx={{ maxWidth: 304, fontSize: "24px" }}
-                onClick={() => navigate(paths.CERTIFICATES_UPLOAD)}
+                onClick={() =>
+                  navigate(paths.CERTIFICATES_UPLOAD, { state: { open: true } })
+                }
               >
                 Get Started
               </Button>

@@ -34,7 +34,13 @@ const OrgansationDocumentView = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchParams] = useSearchParams();
-  const [URLParams, setURLParams] = useState({ product: "", owner: "" });
+  const [URLParams, setURLParams] = useState({
+    product: "",
+    owner: "",
+    doc: "",
+  });
+
+  console.log("url", URLParams);
 
   const rows = ["Recipient Name", "Recipient Email", "Action"];
 
@@ -42,7 +48,7 @@ const OrgansationDocumentView = () => {
     "orgDocument",
     () => fetchOrgDocument({ ...URLParams }),
     {
-      enabled: !!URLParams.product && !!URLParams.owner,
+      enabled: !!URLParams?.doc,
       onError: (e: AxiosError) => {
         const errData: any = e.response?.data;
         if (errData?.message) {
@@ -53,6 +59,8 @@ const OrgansationDocumentView = () => {
       },
     }
   );
+
+  console.log("org", orgDoc);
 
   const data = [
     {
