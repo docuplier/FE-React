@@ -142,13 +142,14 @@ const Preview = () => {
         ...prev,
         openEmailSetup: true,
       }));
+
     if (modalControl.step > 3) {
       const uploaded = context?.uploaded;
 
       const product = context?.products && context?.products[0];
       const image = context?.uploaded;
       const formData = new FormData();
-      formData.append("idempotencyKey", context?.idempotencyKey?._id);
+      formData.append("idempotencyKey", uploaded?.idempotencyKey);
       formData.append("orgName", uploaded?.orgName);
       formData.append("description", uploaded?.description);
 
@@ -158,10 +159,12 @@ const Preview = () => {
         JSON.stringify({
           width: image?.image?.width,
           height: image?.image?.height,
+          renderedWidth: context?.uploaded?.renderedAspectRatio?.width,
+          renderedHeight: context?.uploaded?.renderedAspectRatio?.height,
         })
       );
 
-      formData.append("product", product?._id);
+      formData.append("product", context?.productId);
       formData.append("owner", owner?._id);
       formData.append("emailText", uploaded?.description);
       const field = {
@@ -169,14 +172,16 @@ const Preview = () => {
           {
             fieldName: "name",
             fontFamily: uploaded?.selectedFont,
-            width: uploaded?.dimension?.width,
-            height: uploaded?.dimension?.height,
+            fontSize: uploaded?.selectedFontSize,
+            width: 60,
+            height: 30.25,
             top: uploaded?.dimension?.top,
             bottom: uploaded?.dimension?.bottom,
             left: uploaded?.dimension?.left,
             right: uploaded?.dimension?.right,
             x: uploaded?.dimension?.x,
             y: uploaded?.dimension?.y,
+            color: "rgb(0,0,0)",
           },
         ],
       };
@@ -196,6 +201,7 @@ const Preview = () => {
               right: number;
               x: number;
               y: number;
+              color: string;
             }) => ({
               fieldName: v.fieldName,
               fontFamily: v.fontFamily,
@@ -207,6 +213,7 @@ const Preview = () => {
               right: v.right,
               x: v.x,
               y: v.y,
+              color: v.color,
             })
           )
         )
@@ -267,6 +274,7 @@ const Preview = () => {
             height: context?.uploaded?.image?.height,
             width: context?.uploaded?.image?.width,
           }}
+          selectedFontSize={context?.uploaded?.selectedFontSize}
           dimension={context?.uploaded?.dimension}
           docType={context?.uploaded?.dataFile?.type}
           separateButtons

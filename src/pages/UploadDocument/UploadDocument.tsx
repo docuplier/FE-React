@@ -10,8 +10,9 @@ import {
 import Dropzone from "components/Dropzone/Dropzone";
 import React, { useState } from "react";
 import { getImageSize } from "react-image-size";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import { getPathByName } from "utils/getPathsByName";
+import { useQuery } from "react-query";
 import ReactPlayer from "react-player";
 
 const w = window as any;
@@ -20,17 +21,14 @@ const PDFJS = w.pdfjsLib;
 const UploadDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
+  const location = useLocation();
+  const [open, setOpen] = useState(location?.state?.open);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
 
   React.useEffect(() => {
     context?.setCurrentStep(0);
   }, []);
-
-  // setTimeout(() => {
-  //   setOpen(false);
-  // }, 5000);
 
   const handleUpload = async (data: File) => {
     if (data.type === "application/pdf") {
@@ -51,7 +49,11 @@ const UploadDocument = () => {
     context?.setUploaded((prev: any) => ({
       ...prev,
       doc: imgUrl,
-      image: { src: data, width, height },
+      image: {
+        src: data,
+        width,
+        height,
+      },
       dataFile: data,
     }));
     navigate(getPathByName(context.activeTab, 1));

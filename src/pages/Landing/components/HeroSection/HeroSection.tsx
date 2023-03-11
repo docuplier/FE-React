@@ -63,7 +63,9 @@ const HeroSection = ({
                   fontSize: "24px",
                   mt: "30px",
                 }}
-                onClick={() => navigate(paths.CERTIFICATES_UPLOAD)}
+                onClick={() =>
+                  navigate(paths.CERTIFICATES_UPLOAD, { state: { open: true } })
+                }
               >
                 Start for Free
               </Button>

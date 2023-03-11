@@ -50,8 +50,10 @@ const DocumentLayout: FC<IDocumentLayout> = ({
     "products",
     fetchProducts
   );
+
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);
+
   const { data: systemDocs, isFetching: fetchingSystemDocs } = useQuery(
     "systemDocs",
     fetchSystemDocs
@@ -164,9 +166,9 @@ const DocumentLayout: FC<IDocumentLayout> = ({
                   products: products?.data,
                   isFetchingProducts,
                   isFetchingIndenPontencyKey,
-                  idempotencyKey: documentData?.data?.find(
-                    (v: any) => v.name === activeTab
-                  ),
+                  productId: products?.data?.find(
+                    (v: any) => v?.name === activeTab
+                  )?._id,
                   activeTab,
                 }}
               />

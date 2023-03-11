@@ -7,7 +7,7 @@ export const fetchProducts = async () => {
 };
 
 export const fetchIndenpontencyKey = async () => {
-  const res = await Api.get(`${ENDPOINTS.indenpontencyKey}`);
+  const res = await Api.get(`${ENDPOINTS.idempotencyKey}`);
   return res.data;
 };
 export const fetchSystemDocs = async () => {

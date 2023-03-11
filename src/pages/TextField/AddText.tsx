@@ -20,11 +20,14 @@ import { styled } from "@mui/material";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 // @ts-ignore
-import { FONTS } from "constants/appConstants";
+import { FONTS, FONTSSIZE } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
 import borderImg from "../../assets/border.png";
+import { useQuery } from "react-query";
 import { getPathByName } from "utils/getPathsByName";
+import { useImageSize } from "react-image-size";
 import PageSpinner from "components/pageSpinner/PageSpinner";
+import { fetchIndenpontencyKey } from "services/documents";
 
 const AddText = () => {
   const pdfWrapper: any = useRef(null);
@@ -34,6 +37,7 @@ const AddText = () => {
   const [height, setHeight] = React.useState(0);
 
   const [pdfPageWidth, setPdfPageWidth] = useState(0);
+
   const [dimension, setDimension] = useState({
     top: 0,
     left: 0,
@@ -54,6 +58,7 @@ const AddText = () => {
   });
   const [displayTextBox, setDisplayTextBox] = useState(false);
   const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
+  const [selectedFontSize, setSelectedFontSize] = useState(FONTSSIZE[3]?.value);
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement | null>(null);
@@ -62,6 +67,9 @@ const AddText = () => {
   const context: any = useOutletContext();
   const val = ref?.current?.getBoundingClientRect();
   const draggableVal = draggableRef?.current?.getBoundingClientRect();
+
+  const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
+    useQuery("products", fetchIndenpontencyKey);
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const left =
@@ -150,6 +158,19 @@ const AddText = () => {
     setSelectedFont(val);
   };
 
+  const handleFontSizeChange = (evt: any) => {
+    const val = evt.target.value;
+    setSelectedFontSize(val);
+  };
+
+  const [docnaturalValue] = useImageSize(context?.uploaded?.doc);
+
+  const clockImage = document.querySelector(".docImg");
+  const renderedAspectRatio = {
+    height: clockImage?.clientHeight,
+    width: clockImage?.clientWidth,
+  };
+
   return (
     <Stack spacing={12}>
       <Box display="flex" width="100%" justifyContent="center">
@@ -166,21 +187,43 @@ const AddText = () => {
           //   flexWrap="wrap"
         >
           {" "}
-          <Box display="flex" alignItems="flex-end" mx={6}>
+          <Box display="flex" alignItems="flex-end" mx={6} width="15%">
             {" "}
             <Button
               variant="contained"
               fullWidth={isMobile}
               sx={{
                 height: "48px",
-                px: isMobile ? 4 : 12,
+                px: isMobile ? 4 : 6,
               }}
               onClick={() => handleTextBox()}
             >
               {isMobile ? "Add Text" : "Add A Text Box"}
             </Button>
           </Box>
-          <Box mx={6} width="28%">
+          <Box width="15%">
+            <Typography variant="body2">Select Font-Size</Typography>
+            <FormControl fullWidth size="small">
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedFontSize}
+                onChange={handleFontSizeChange}
+                sx={{
+                  height: "48px",
+                }}
+                MenuProps={{ PaperProps: { sx: { maxHeight: 250 } } }}
+                IconComponent={KeyboardArrowDownIcon}
+              >
+                {FONTSSIZE.map((font: any) => (
+                  <MenuItem key={font.value} value={font.value}>
+                    {font.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box mx={6} width="25%">
             <Typography variant="body2">Select Font</Typography>
             <FormControl fullWidth size="small">
               <Select
@@ -213,6 +256,7 @@ const AddText = () => {
       >
         <Box ref={ref} position="relative">
           <img
+            className="docImg"
             src={context?.uploaded?.doc}
             style={{
               position: "relative",
@@ -270,13 +314,15 @@ const AddText = () => {
                       {" "}
                       <Typography
                         fontSize={{
-                          xs: pxToRem(10),
-                          sm: pxToRem(16),
-                          md: pxToRem(18),
+                          xs: pxToRem(selectedFontSize),
+                          sm: pxToRem(selectedFontSize),
+                          md: pxToRem(selectedFontSize),
                         }}
                         sx={{
                           fontFamily: selectedFont,
                           fontWeight: 800,
+                          textAlign: "center",
+                          // fontSize: selectedFontSize,
                         }}
                         variant="h1"
                         // color="#8F9099"
@@ -340,6 +386,10 @@ const AddText = () => {
               ...prev,
               dimension,
               selectedFont,
+              selectedFontSize,
+              renderedAspectRatio,
+              docnaturalValue,
+              idempotencyKey: documentData?.data?.idempotencyKey,
             }));
             navigate(getPathByName(context.activeTab, 2));
           }}
