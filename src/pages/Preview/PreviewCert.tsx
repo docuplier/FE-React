@@ -44,7 +44,6 @@ const PreviewCert = ({
   separateButtons?: boolean;
 }) => {
   const context = useOutletContext();
-  console.log("cont", context);
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement | null>(null);
   const printDocument = async (e: any) => {

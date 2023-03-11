@@ -50,7 +50,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({
     "products",
     fetchProducts
   );
-  console.log("pro", products);
 
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);

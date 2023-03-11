@@ -130,9 +130,6 @@ const Preview = () => {
     }
   }, []);
 
-  console.log("imgpath", context?.uploaded?.renderedAspectRatio?.width);
-  console.log("vals", context);
-
   const handleContinue = () => {
     if (modalControl.step === 3)
       return setModalControl((prev) => ({

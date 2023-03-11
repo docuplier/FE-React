@@ -107,17 +107,6 @@ const AddText = () => {
       width: val?.width!,
       height: val?.height!,
     });
-
-    console.log({
-      left: left,
-      right: right,
-      width: width,
-      height: height,
-      bottom: bottom,
-      top: top,
-      x: x,
-      y: y,
-    });
   };
 
   const handleTextBox = () => {
@@ -157,7 +146,7 @@ const AddText = () => {
       doc: imagesList[0],
     }));
   }
-  console.log({ width: width, height: height });
+
   React.useEffect(() => {
     context?.setCurrentStep(1);
 
@@ -174,11 +163,6 @@ const AddText = () => {
     setSelectedFontSize(val);
   };
 
-  const onImageLoad = ({ target: imgParams }: any) => {
-    console.log("imParams", imgParams);
-    return imgParams;
-  };
-
   const [docnaturalValue] = useImageSize(context?.uploaded?.doc);
 
   const clockImage = document.querySelector(".docImg");
@@ -186,7 +170,6 @@ const AddText = () => {
     height: clockImage?.clientHeight,
     width: clockImage?.clientWidth,
   };
-  console.log("renderedAspectRatio", renderedAspectRatio);
 
   return (
     <Stack spacing={12}>

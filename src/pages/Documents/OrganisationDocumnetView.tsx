@@ -40,7 +40,6 @@ const OrgansationDocumentView = () => {
     doc: "",
   });
 
-  console.log("url", URLParams);
 
   const rows = ["Recipient Name", "Recipient Email", "Action"];
 
@@ -60,7 +59,6 @@ const OrgansationDocumentView = () => {
     }
   );
 
-  console.log("org", orgDoc);
 
   const data = [
     {
