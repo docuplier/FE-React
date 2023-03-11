@@ -47,9 +47,11 @@ const DocumentLayout: FC<IDocumentLayout> = ({
   }>({ doc: null, list: null });
 
   const { data: products, isFetching: isFetchingProducts } = useQuery(
-    "products",
+    "productsList",
     fetchProducts
   );
+
+  // console.log("dat", products);
 
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);
@@ -101,6 +103,8 @@ const DocumentLayout: FC<IDocumentLayout> = ({
       reader.readAsArrayBuffer(file);
     }
   };
+  console.log("products", products);
+  // console.log("documentData", documentData);
 
   return (
     <Box
