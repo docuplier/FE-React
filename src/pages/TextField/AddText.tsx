@@ -187,7 +187,12 @@ const AddText = () => {
           //   flexWrap="wrap"
         >
           {" "}
-          <Box display="flex" alignItems="flex-end" mx={6} width="15%">
+          <Box
+            display="flex"
+            alignItems="flex-end"
+            mx={6}
+            width={isMobile ? "25%" : "15%"}
+          >
             {" "}
             <Button
               variant="contained"
@@ -201,7 +206,7 @@ const AddText = () => {
               {isMobile ? "Add Text" : "Add A Text Box"}
             </Button>
           </Box>
-          <Box width="15%">
+          <Box width={isMobile ? "30%" : "15%"}>
             <Typography variant="body2">Select Font-Size</Typography>
             <FormControl fullWidth size="small">
               <Select

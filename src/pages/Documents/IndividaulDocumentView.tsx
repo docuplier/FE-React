@@ -55,7 +55,7 @@ const IndividualDocument = () => {
     // @ts-ignore
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
-  console.log("dociiis", singleDoc);
+
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(

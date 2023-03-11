@@ -47,7 +47,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({
   }>({ doc: null, list: null });
 
   const { data: products, isFetching: isFetchingProducts } = useQuery(
-    "products",
+    "productsList",
     fetchProducts
   );
 
