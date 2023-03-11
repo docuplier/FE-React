@@ -55,6 +55,7 @@ const IndividualDocument = () => {
     // @ts-ignore
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
+  console.log("dociiis", singleDoc);
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
@@ -137,6 +138,7 @@ const IndividualDocument = () => {
                 // doc={new Blob([singleDoc?.data?.image?.src], "image/svg+xml")}
                 isMobile={isMobile}
                 selectedFont={singleDoc?.data?.fields[0]?.fontFamily}
+                selectedFontSize={singleDoc?.data?.fields[0]?.fontSize}
                 onBackClick={shareImage}
                 imgSize={{
                   height: singleDoc?.data?.image?.height,
