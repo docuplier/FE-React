@@ -9,25 +9,25 @@ const data = [
     logo: certificate,
     title: "Certificates",
     description:
-      "Diam senectus eleifend nunc id sem dictum. Aliquet mauris consectetur eu dignissim et congue odio. Enim, viverra interdum iaculis diam.",
+      "Recognize achievement with ease - create and distribute personalized certificates for events, training programs, and more effortlessly.",
   },
   {
     logo: badge,
     title: "Badges",
     description:
-      "Diam senectus eleifend nunc id sem dictum. Aliquet mauris consectetur eu dignissim et congue odio. Enim, viverra interdum iaculis diam.",
+      "Make a lasting impression - elevate your event experience by creating customized badges for attendees, speakers, and more.",
   },
   {
     logo: tag,
-    title: "Tags",
+    title: "Name Tags",
     description:
-      "Diam senectus eleifend nunc id sem dictum. Aliquet mauris consectetur eu dignissim et congue odio. Enim, viverra interdum iaculis diam.",
+      "Personalize your events - create and print name tags with ease to ensure smooth check-ins and networking opportunities",
   },
   {
     logo: invitation,
     title: "Invitations",
     description:
-      "Diam senectus eleifend nunc id sem dictum. Aliquet mauris consectetur eu dignissim et congue odio. Enim, viverra interdum iaculis diam.",
+      "Make a statement - send exclusive invitations that are personalized and easily shareable via email, WhatsApp and more.",
   },
 ];
 

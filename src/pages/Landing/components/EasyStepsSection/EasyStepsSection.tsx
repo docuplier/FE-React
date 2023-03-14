@@ -26,8 +26,8 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
         />
       ),
       description: isMobile
-        ? "Choose files: Upload name list and certificate design"
-        : "Choose files: Upload name list and the preferred document type’s design",
+        ? "Upload Design: Select and upload the design file for your certificate, badge, name tag, or invitation card."
+        : "Upload Design: Select and upload the design file for your certificate, badge, name tag, or invitation card.",
     },
     {
       itemNumber: "",
@@ -48,8 +48,8 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
         />
       ),
       description: isMobile
-        ? "Create name field: Be sure to choose befitting fonts and drag to position"
-        : "Create name field: Be sure to choose befitting fonts and drag to position based on your design uploaded",
+        ? " Customize Design: Add a text field for the recipient's name and move it to your desired position on the document"
+        : " Customize Design: Add a text field for the recipient's name and move it to your desired position on the document",
     },
     {
       itemNumber: (
@@ -61,7 +61,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
         />
       ),
       description:
-        "Create email duplicates: Email or download certificates for printing",
+        "Upload Name List: Use the provided template to upload a spreadsheet of names and other details for the recipients",
     },
     {
       itemNumber: "",
@@ -82,7 +82,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
         />
       ),
       description:
-        "Create name field: Be sure to choose befitting fonts and drag to position",
+        "Preview & Send: Preview the final document to ensure accuracy and formatting before sending.",
     },
     {
       itemNumber: "",
