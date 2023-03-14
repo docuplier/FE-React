@@ -46,11 +46,11 @@ const HeroSection = ({
             </Grid>
             <Grid item sx={{ mt: isMobile ? 2 : 16 }}>
               <Typography variant="h2" mb={theme.spacing(5)}>
-                Personalize & Issue <br /> Certificates, Badges & Invitations
-                For Free{" "}
+                Effortlessly Generate & Personalize Certificates, Badges, and
+                Invitations sub-header
               </Typography>
               <Typography variant="h4" mb={theme.spacing(12)} mt={"30px"}>
-                No Sign Ups, No Credit Cards, Just Docuply it!
+                Easy, Fast & Free
               </Typography>
 
               <Button
