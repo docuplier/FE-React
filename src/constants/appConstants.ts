@@ -46,49 +46,49 @@ export const CERTIFICATE_STEPS = [
 
 export const FONTS = [
   {
-    label: "Default",
-    value: "'Nunito', sans-serif;",
+    label: "Nunito",
+    value: "'Nunito'",
   },
-  { label: "Dosis", value: "'Dosis', sans-serif" },
+  { label: "Dosis", value: "'Dosis'" },
   {
     label: "EB Garamond",
-    value: "'EB Garamond', serif",
+    value: "'EB Garamond'",
   },
   {
     label: "Fira Sans",
-    value: "'Fira Sans', sans-serif",
+    value: "'Fira Sans'",
   },
   {
     label: "Lato",
-    value: "'Lato', sans-serif",
+    value: "'Lato'",
   },
   {
     label: "Libre Baskerville",
-    value: "''Libre Baskerville', serif",
+    value: "'Libre Baskerville'",
   },
   {
     label: "Libre Caslon Text",
-    value: "'Libre Caslon Text', serif",
+    value: "'Libre Caslon Text'",
   },
   {
     label: "Martian Mono",
-    value: "'Martian Mono', monospace",
+    value: "'Martian Mono'",
   },
   {
     label: "Merriweather",
-    value: "'Merriweather', serif",
+    value: "'Merriweather'",
   },
   {
     label: "Montserrat",
-    value: "'Montserrat', sans-serif",
+    value: "'Montserrat'",
   },
   {
     label: "Open Sans",
-    value: "'Open Sans', sans-serif",
+    value: "'Open Sans'",
   },
   {
     label: "PT Serif",
-    value: "'PT Serif', serif",
+    value: "'PT Serif'",
   },
 ];
 
