@@ -47,7 +47,7 @@ const HeroSection = ({
             <Grid item sx={{ mt: isMobile ? 2 : 16 }}>
               <Typography variant="h2" mb={theme.spacing(5)}>
                 Effortlessly Generate & Personalize Certificates, Badges, and
-                Invitations sub-header
+                Invitations
               </Typography>
               <Typography variant="h4" mb={theme.spacing(12)} mt={"30px"}>
                 Easy, Fast & Free
