@@ -69,7 +69,7 @@ const AddText = () => {
   const draggableVal = draggableRef?.current?.getBoundingClientRect();
 
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
-    useQuery("products", fetchIndenpontencyKey);
+    useQuery("idempotencyKeyValue", fetchIndenpontencyKey);
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const left =
@@ -171,6 +171,8 @@ const AddText = () => {
     width: clockImage?.clientWidth,
   };
 
+  const fontNumber = (renderedAspectRatio?.width! / 100) * 60;
+
   return (
     <Stack spacing={12}>
       <Box display="flex" width="100%" justifyContent="center">
@@ -206,7 +208,7 @@ const AddText = () => {
               {isMobile ? "Add Text" : "Add A Text Box"}
             </Button>
           </Box>
-          <Box width={isMobile ? "30%" : "15%"}>
+          {/* <Box width={isMobile ? "30%" : "15%"}>
             <Typography variant="body2">Select Font-Size</Typography>
             <FormControl fullWidth size="small">
               <Select
@@ -227,14 +229,14 @@ const AddText = () => {
                 ))}
               </Select>
             </FormControl>
-          </Box>
+          </Box> */}
           <Box mx={6} width="25%">
             <Typography variant="body2">Select Font</Typography>
             <FormControl fullWidth size="small">
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedFont}
+                value={`${selectedFont}`}
                 onChange={handleFontChange}
                 sx={{
                   height: "48px",
@@ -276,7 +278,7 @@ const AddText = () => {
           />
           <Box
             //  component="span"
-            width="60%"
+            width={`${(renderedAspectRatio?.width! / 100) * 60}px`}
             sx={{ position: "absolute", top: 0 }}
             //  ref={draggableRef}
           >
@@ -319,12 +321,12 @@ const AddText = () => {
                       {" "}
                       <Typography
                         fontSize={{
-                          xs: pxToRem(selectedFontSize),
-                          sm: pxToRem(selectedFontSize),
-                          md: pxToRem(selectedFontSize),
+                          xs: pxToRem(8),
+                          sm: pxToRem(14),
+                          md: `${(5 / 100) * fontNumber}px`,
                         }}
                         sx={{
-                          fontFamily: selectedFont,
+                          fontFamily: `${selectedFont}`,
                           fontWeight: 800,
                           textAlign: "center",
                           // fontSize: selectedFontSize,
@@ -379,10 +381,10 @@ const AddText = () => {
           sx={{
             //  width: "200px",
             height: "48px",
-            px: 14,
+            px: 24,
             mb: 4,
             "@media screen and (max-width:768px)": {
-              px: 6,
+              px: 8,
             },
           }}
           disabled={!displayTextBox}

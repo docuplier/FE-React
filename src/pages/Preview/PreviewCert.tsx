@@ -7,7 +7,7 @@ import { jsPDF } from "jspdf";
 import { pxToRem } from "utils/pxToRem";
 import { useOutletContext } from "react-router-dom";
 import html2canvas from "html2canvas";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 
 const PreviewCert = ({
   fullName,
@@ -21,6 +21,7 @@ const PreviewCert = ({
   docType,
   separateButtons,
   selectedFontSize,
+  hideDownloadbtn = true,
 }: {
   fullName: string;
   isMobile: boolean;
@@ -41,6 +42,7 @@ const PreviewCert = ({
     y: number;
   };
   docType: string;
+  hideDownloadbtn?: boolean;
   separateButtons?: boolean;
 }) => {
   const context = useOutletContext();
@@ -162,9 +164,9 @@ const PreviewCert = ({
                     >
                       <Typography
                         fontSize={{
-                          xs: pxToRem(selectedFontSize),
-                          sm: pxToRem(selectedFontSize),
-                          md: pxToRem(selectedFontSize),
+                          xs: pxToRem(8),
+                          sm: pxToRem(14),
+                          md: `${selectedFontSize}px`,
                         }}
                         sx={{
                           fontFamily: selectedFont,
@@ -227,21 +229,23 @@ const PreviewCert = ({
         >
           {backText || "Back"}
         </Button>
-        <Button
-          variant="contained"
-          sx={{
-            //  width: "200px",
-            height: "48px",
-            px: 14,
-            mb: 4,
-            "@media screen and (max-width:768px)": {
-              px: 6,
-            },
-          }}
-          onClick={(e) => printDocument(e)}
-        >
-          Download PDF
-        </Button>
+        {hideDownloadbtn && (
+          <Button
+            variant="contained"
+            sx={{
+              //  width: "200px",
+              height: "48px",
+              px: 14,
+              mb: 4,
+              "@media screen and (max-width:768px)": {
+                px: 6,
+              },
+            }}
+            onClick={(e) => printDocument(e)}
+          >
+            Download PDF
+          </Button>
+        )}
       </Box>
     </>
   );

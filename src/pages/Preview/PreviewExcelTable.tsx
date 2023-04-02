@@ -185,7 +185,7 @@ const PreviewExcelTable = ({
         <Box display="flex">
           <Button
             sx={{
-              width: "200px",
+              width: "150px",
               height: "40px",
               mr: 4,
               mb: 4,
@@ -201,7 +201,7 @@ const PreviewExcelTable = ({
             }}
             onClick={() => onPreviewClick()}
           >
-            Preview Certificate
+            Preview
           </Button>{" "}
           {/* <Button
             sx={{
@@ -226,7 +226,7 @@ const PreviewExcelTable = ({
           {step > 1 ? (
             <Button
               variant="contained"
-              sx={{ px: 6, height: "40px", mb: 4 }}
+              sx={{ px: 20, height: "40px", mb: 4 }}
               onClick={onContinue}
               disableElevation
               disableFocusRipple

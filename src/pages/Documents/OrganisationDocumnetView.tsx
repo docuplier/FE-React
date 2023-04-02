@@ -17,13 +17,13 @@ import {
 } from "@mui/material";
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import Footer from "components/Layout/Footer";
 import { AxiosError } from "axios";
-import { fetchOrgDocument } from "services/documents";
+import { fetchOrgCerts, fetchOrgDocumentDetails } from "services/documents";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -32,6 +32,8 @@ import { format } from "date-fns";
 const OrgansationDocumentView = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [progress, setProgress] = useState(0);
+  const [download, setDownload] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchParams] = useSearchParams();
   const [URLParams, setURLParams] = useState({
@@ -40,12 +42,11 @@ const OrgansationDocumentView = () => {
     doc: "",
   });
 
-
   const rows = ["Recipient Name", "Recipient Email", "Action"];
 
   const { data: orgDoc, isFetching: fetchingOrgDoc } = useQuery(
     "orgDocument",
-    () => fetchOrgDocument({ ...URLParams }),
+    () => fetchOrgDocumentDetails({ ...URLParams }),
     {
       enabled: !!URLParams?.doc,
       onError: (e: AxiosError) => {
@@ -58,25 +59,7 @@ const OrgansationDocumentView = () => {
       },
     }
   );
-
-
-  const data = [
-    {
-      name: "Henry",
-      email: "henry@gmail.com",
-      view: "view",
-    },
-    {
-      name: "Chibuike",
-      email: "chibuike@gmail.com",
-      view: "view",
-    },
-    {
-      name: "Judith",
-      email: "judith@gmail.com",
-      view: "view",
-    },
-  ];
+  console.log("org", orgDoc);
 
   useEffect(() => {
     let params = {};
@@ -90,13 +73,49 @@ const OrgansationDocumentView = () => {
     setURLParams((prevState) => ({ ...prevState, ...params }));
   }, [searchParams]);
 
+  const { data: orgCerts, isFetching: fetchingOrgCerts } = useQuery(
+    "orgCerts",
+    () => fetchOrgCerts({ ...URLParams }),
+    {
+      enabled: download,
+      onSettled: async (res) => {
+        let p = 0;
+        while (p <= 100) {
+          ++p;
+          setProgress((prev) => ++prev);
+          if (p === 100) {
+            setDownload(false);
+            let alink = document.createElement("a");
+            if (res?.data) {
+              alink.href = res.data;
+              alink.target = "_blank";
+              alink.download = `all-certificates.pdf`;
+              alink.click();
+            }
+          }
+        }
+      },
+      onError: (e: AxiosError) => {
+        setDownload(false);
+        const errData: any = e.response?.data;
+        if (errData?.message) {
+          toast(errData.message, {
+            type: "error",
+          });
+        }
+      },
+    }
+  );
+
+  console.log("progress", progress);
+
   const exportAsExcel = () => {
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
     const ext = ".xlsx";
-    const objKeys = Object.keys(orgDoc?.data[0]?.clients[0]);
+    const objKeys = Object.keys(orgDoc?.data?.clients);
 
-    const body = orgDoc?.data[0]?.clients.map((v: any) => {
+    const body = orgDoc?.data?.clients.map((v: any) => {
       let itm: any = {};
       objKeys.forEach((key) => {
         itm[key.replaceAll("_", " ")?.toUpperCase()] = v[key];
@@ -132,16 +151,14 @@ const OrgansationDocumentView = () => {
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issuer:
                 </Typography>
-                <Typography variant="body2">
-                  {orgDoc?.data[0]?.orgName}
-                </Typography>
+                <Typography variant="body2">{orgDoc?.data?.orgName}</Typography>
               </Box>
               <Box display="flex" my={4}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Number of Recipients:
                 </Typography>
                 <Typography variant="body2">
-                  {orgDoc?.data[0]?.clients?.length}
+                  {orgDoc?.data?.clients?.length}
                 </Typography>
               </Box>
               <Box display="flex" my={4}>
@@ -149,11 +166,8 @@ const OrgansationDocumentView = () => {
                   Issue Date:
                 </Typography>
                 <Typography variant="body2">
-                  {orgDoc?.data[0]?.createdAt
-                    ? format(
-                        new Date(orgDoc?.data[0]?.createdAt),
-                        "do MMMM, yyyy"
-                      )
+                  {orgDoc?.data?.createdAt
+                    ? format(new Date(orgDoc?.data?.createdAt), "do MMMM, yyyy")
                     : "-"}
                 </Typography>
               </Box>
@@ -162,7 +176,13 @@ const OrgansationDocumentView = () => {
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Description:
                 </Typography>
-                <Typography>{orgDoc?.data[0]?.emailText}</Typography>
+                <Typography>
+                  {orgDoc?.data?.emailText
+                    ? orgDoc?.data?.emailText
+                    : orgDoc?.data?.emailText == undefined
+                    ? "--"
+                    : "--"}
+                </Typography>
               </Box>
             </Box>
           </Stack>
@@ -194,9 +214,12 @@ const OrgansationDocumentView = () => {
                     <Button
                       variant="contained"
                       size="large"
-                      onClick={() => exportAsExcel()}
+                      disabled={fetchingOrgCerts}
+                      onClick={() => setDownload(true)}
                     >
-                      Download All & Print
+                      {fetchingOrgCerts
+                        ? `Downloading...`
+                        : "Download All & Print"}
                     </Button>
                   </Box>
                 </Box>
@@ -254,7 +277,7 @@ const OrgansationDocumentView = () => {
                           </TableRow>
                         ) : (
                           <>
-                            {orgDoc?.data[0]?.clients?.map((row: any) => (
+                            {orgDoc?.data?.clients?.map((row: any) => (
                               <TableRow
                                 key={row?._id}
                                 sx={{
@@ -284,7 +307,7 @@ const OrgansationDocumentView = () => {
                                     }}
                                     onClick={() =>
                                       navigate(
-                                        `${paths.INDIVIDUAL_CERTIFICATES}?doc=${orgDoc?.data[0]?._id}&client=${row?._id}`
+                                        `${paths.INDIVIDUAL_CERTIFICATES}?doc=${orgDoc?.data?._id}&client=${row?._id}`
                                       )
                                     }
                                   >
