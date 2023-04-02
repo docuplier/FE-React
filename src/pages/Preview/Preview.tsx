@@ -11,12 +11,18 @@ import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEma
 import { paths } from "Routes";
 import { checkMissingFields } from "utils/validateExcel";
 import { getLongestName } from "utils/getLongestName";
-import { completeProcess, signupEmail, verifyOTP } from "services/documents";
+import {
+  completeProcess,
+  signupEmail,
+  verifyOTP,
+  resendOTP,
+} from "services/documents";
 import { utils, write } from "xlsx";
 
 import PreviewExcelTable from "./PreviewExcelTable";
 import PreviewCert from "./PreviewCert";
 import { getPathByName } from "utils/getPathsByName";
+import ToastContent from "components/ToastContent/ToastContent";
 
 export interface IModalControl {
   openOtp: boolean;
@@ -34,6 +40,7 @@ const Preview = () => {
   const context: any = useOutletContext();
   const [savingTemplate, setSavingTemplate] = useState(false);
   const [owner, setOwner] = useState<any>();
+  const [emailId, setEmailId] = useState();
   const [showPreview, setShowPreview] = useState(false);
   const [modalControl, setModalControl] = useState<IModalControl>({
     openOtp: false,
@@ -46,12 +53,16 @@ const Preview = () => {
 
   const { mutate, isLoading: isCreating } = useMutation(signupEmail, {
     onError: (error: AxiosError) => {
-      toast(
-        error?.message || "Something went wrong while trying to send request",
-        {
-          type: "error",
-        }
-      );
+      const errData: any = error.response?.data;
+      if (errData?.message) {
+        toast(
+          errData.message ||
+            "Something went wrong while trying to send request",
+          {
+            type: "error",
+          }
+        );
+      }
     },
     onSuccess: (resp: any) => {
       toast(
@@ -65,7 +76,7 @@ const Preview = () => {
       //   owner: resp?.data,
       // }));
       setOwner(resp?.data);
-
+      console.log("resp", resp);
       setModalControl((prev) => ({
         ...prev,
         openEmailSetup: false,
@@ -79,12 +90,16 @@ const Preview = () => {
     verifyOTP,
     {
       onError: (error: AxiosError) => {
-        toast(
-          error?.message || "Something went wrong while trying to send request",
-          {
-            type: "error",
-          }
-        );
+        const errData: any = error.response?.data;
+        if (errData?.message) {
+          toast(
+            errData.message ||
+              "Something went wrong while trying to send request",
+            {
+              type: "error",
+            }
+          );
+        }
         setModalControl((prev) => ({
           ...prev,
           otpError: true,
@@ -106,17 +121,65 @@ const Preview = () => {
       },
     }
   );
+  console.log("contexttt", context);
+
+  const { mutate: resendOtp } = useMutation(resendOTP, {
+    onError: (error: AxiosError) => {
+      toast(
+        error?.message || "Something went wrong while trying to send request",
+        {
+          type: "error",
+        }
+      );
+    },
+    onSuccess: (resp: any) => {
+      toast(
+        resp?.message ||
+          `Success: An OTP has been re-sent to ${resp.data.email}`,
+        {
+          type: "success",
+        }
+      );
+      // context?.setUploaded((prev: any) => ({
+      //   ...prev,
+      //   owner: resp?.data,
+      // }));
+      // setOwner(resp?.data);
+      // console.log("resss", resp);
+
+      setModalControl((prev) => ({
+        ...prev,
+        openEmailSetup: false,
+        setupEmailPayload: {
+          email: resp?.data?.email,
+          name: context?.uploaded?.orgName,
+        },
+        step: 3,
+      }));
+    },
+  });
 
   const { mutate: saveData, isLoading: completingProcess } = useMutation(
     completeProcess,
     {
       onError: (error: AxiosError) => {
         toast.error(
-          error?.message || "Something went wrong while trying to send request"
+          <ToastContent
+            toastType="error"
+            message={
+              error?.message ||
+              "Something went wrong while trying to send request"
+            }
+          />
         );
       },
       onSuccess: (resp: any) => {
-        toast.success(resp?.message || `Success: Data saved!`);
+        toast.success(
+          <ToastContent
+            toastType="success"
+            message={resp?.message || `Success: Data saved!`}
+          />
+        );
         return navigate(getPathByName(context.activeTab, 4));
       },
     }
@@ -129,6 +192,8 @@ const Preview = () => {
       navigate("/");
     }
   }, []);
+
+  console.log("cont", context?.uploaded?.description);
 
   const handleContinue = () => {
     if (modalControl.step === 3)
@@ -151,7 +216,11 @@ const Preview = () => {
       const formData = new FormData();
       formData.append("idempotencyKey", uploaded?.idempotencyKey);
       formData.append("orgName", uploaded?.orgName);
-      formData.append("description", uploaded?.description);
+      if (uploaded?.description !== undefined) {
+        formData.append("description", uploaded?.description);
+      } else {
+        formData.append("description", " ");
+      }
 
       formData.append("docImage", image?.image?.src, image?.dataFile?.name);
       formData.append(
@@ -173,7 +242,7 @@ const Preview = () => {
             fieldName: "name",
             fontFamily: uploaded?.selectedFont,
             fontSize: uploaded?.selectedFontSize,
-            width: 60,
+            width: (60 / 100) * context?.uploaded?.renderedAspectRatio?.width,
             height: 30.25,
             top: uploaded?.dimension?.top,
             bottom: uploaded?.dimension?.bottom,
@@ -257,6 +326,9 @@ const Preview = () => {
     saveAs(data, `recipients${ext}`);
   };
 
+  const fontNumber = (context?.uploaded?.renderedAspectRatio?.width / 100) * 60;
+  console.log("cont", context);
+
   return (
     <Stack spacing={12}>
       {showPreview ? (
@@ -266,6 +338,7 @@ const Preview = () => {
               (v: any) => v.recipient_full_name
             )
           )}
+          hideDownloadbtn={false}
           doc={context?.uploaded?.doc}
           isMobile={isMobile}
           selectedFont={context?.uploaded?.selectedFont}
@@ -274,7 +347,7 @@ const Preview = () => {
             height: context?.uploaded?.image?.height,
             width: context?.uploaded?.image?.width,
           }}
-          selectedFontSize={context?.uploaded?.selectedFontSize}
+          selectedFontSize={(5 / 100) * fontNumber}
           dimension={context?.uploaded?.dimension}
           docType={context?.uploaded?.dataFile?.type}
           separateButtons
@@ -317,9 +390,7 @@ const Preview = () => {
       <OtpModal
         error={modalControl.otpError}
         open={modalControl.openOtp}
-        onClose={() =>
-          setModalControl((prev) => ({ ...prev, openOtp: false, step: 4 }))
-        }
+        onClose={() => setModalControl((prev) => ({ ...prev, openOtp: false }))}
         onConfirm={(data: any) => verifyOtp({ token: data })}
         loading={verifyingOtp}
         onInputChange={(e: any) =>
@@ -328,7 +399,7 @@ const Preview = () => {
             otpError: false,
           }))
         }
-        onResend={() => mutate(modalControl.setupEmailPayload)}
+        onResend={() => resendOtp({ payload: {}, id: owner?._id })}
       />
       <SetupEmailTemplateModal
         loading={savingTemplate}
@@ -343,7 +414,12 @@ const Preview = () => {
           setSavingTemplate(true);
           setTimeout(() => {
             setSavingTemplate(false);
-            toast.success("Template Created Successfully");
+            toast.success(
+              <ToastContent
+                toastType="success"
+                message="Template Created Successfully"
+              />
+            );
             setModalControl((prev) => ({
               ...prev,
               openEmailTemplateSetup: false,
@@ -351,7 +427,19 @@ const Preview = () => {
             }));
           }, 2500);
         }}
-        onResend={() => console.log("resend clicked")}
+        onResend={() => {
+          setModalControl((prev) => ({
+            ...prev,
+            openEmailTemplateSetup: false,
+            step: 2,
+          }));
+          toast.success(
+            <ToastContent
+              toastType="success"
+              message="Template has been set to default"
+            />
+          );
+        }}
         isMobile={isMobile}
       />
     </Stack>

@@ -7,7 +7,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { cloneElement } from "react";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.

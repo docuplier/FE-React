@@ -84,7 +84,14 @@ const UseCasesSection = () => {
               // }}
             >
               <Box>
-                <img src={v.logo} alt="" />
+                <img
+                  src={v.logo}
+                  alt="logo"
+                  style={{
+                    width: isMobile ? "80px" : "",
+                    height: isMobile ? "80px" : "",
+                  }}
+                />
               </Box>
               <Typography
                 sx={{

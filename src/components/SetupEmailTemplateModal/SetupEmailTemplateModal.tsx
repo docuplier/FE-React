@@ -64,10 +64,12 @@ export default function SetupEmailTemplateModal({
     context?.setUploaded((prev: any) => ({
       ...prev,
       orgName: data?.orgName,
-      description: data?.body,
+      description: data?.body ? data?.body : "",
+      senderName: data?.senderName,
     }));
     onConfirm({ ...data });
   };
+  console.log("err", errors);
 
   return (
     <Dialog

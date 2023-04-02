@@ -3,25 +3,28 @@ import {
   Button,
   CircularProgress,
   Grid,
+  LinearProgress,
   Stack,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
 import Footer from "components/Layout/Footer";
-import { useEffect, useState } from "react";
-import { fetchSingleDocument } from "services/documents";
-import { useQuery } from "react-query";
+import { useEffect, useMemo, useState } from "react";
+import { fetchSingleDocument, fetClientCert } from "services/documents";
+import { useQuery, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import PageSpinner from "components/pageSpinner/PageSpinner";
 import { format } from "date-fns";
 import PreviewCert from "pages/Preview/PreviewCert";
+import PreviewCertV2 from "pages/Preview/PreviewCertV2";
 
 const IndividualDocument = () => {
+  const queryClient = useQueryClient();
   const theme = useTheme();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -41,9 +44,28 @@ const IndividualDocument = () => {
           });
         }
       },
+      onSuccess: () => {
+        queryClient.refetchQueries("clientCert");
+      },
     }
   );
 
+  const { data: clientCert, isFetching: fetchingClientCert } = useQuery(
+    "clientCert",
+    () => fetClientCert({ ...URLParams }),
+    {
+      enabled: !!URLParams.client && !!URLParams.doc,
+      onError: (e: AxiosError) => {
+        const errData: any = e.response?.data;
+        if (errData?.message) {
+          toast(errData.message, {
+            type: "error",
+          });
+        }
+      },
+    }
+  );
+  console.log("single", singleDoc);
   useEffect(() => {
     let params = {};
 
@@ -82,8 +104,10 @@ const IndividualDocument = () => {
               <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "50%"} />
             </Link>
             <Box display="flex" flexDirection="column" ml={4}>
-              <Typography variant="body1">General Information</Typography>
-              <Box display="flex" mt={4}>
+              <Typography variant="body1" sx={{ mb: 3 }}>
+                General Information
+              </Typography>
+              <Box display="flex" my={3}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issuer:
                 </Typography>
@@ -91,15 +115,17 @@ const IndividualDocument = () => {
                   {singleDoc?.data?.orgName}
                 </Typography>
               </Box>
-              <Box display="flex" my={4}>
+              <Box display="flex" my={3}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Recipient:
                 </Typography>
                 <Typography variant="body2">
-                  {singleDoc?.data?.client?.name}
+                  {singleDoc?.data?.client
+                    ? singleDoc?.data?.client?.name
+                    : "--"}
                 </Typography>
               </Box>
-              <Box display="flex" my={4}>
+              <Box display="flex" my={3}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Issue Date:
                 </Typography>
@@ -112,48 +138,37 @@ const IndividualDocument = () => {
                     : "-"}
                 </Typography>
               </Box>
-              <Box display="flex" my={4}>
+              <Box display="flex" my={3}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
-                  Certificate ID:
+                  Document ID:
                 </Typography>
                 <Typography variant="body2">{singleDoc?.data?._id}</Typography>
               </Box>
-              <Box display="flex" my={4}>
+              {/* <Box display="flex" my={3}>
                 <Typography variant="body2" sx={{ mr: 2, color: "#8F9099" }}>
                   Description:
                 </Typography>
-                <Typography>{singleDoc?.data?.emailText}</Typography>
-              </Box>
+                <Typography>
+                  {singleDoc?.data
+                    ? singleDoc?.data?.emailText
+                    : singleDoc?.data?.emailText == "undefined"
+                    ? "--"
+                    : "--"}
+                </Typography>
+              </Box> */}
             </Box>
           </Stack>
         </Grid>
         <Grid item xs={12} md={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <PreviewCert
+              <PreviewCertV2
                 fullName={singleDoc?.data?.client?.name}
                 backText="Share on LinkedIn"
-                // doc={`blob:${singleDoc?.data?.image?.src}`}
-                doc={singleDoc?.data?.image?.src}
-                // doc={new Blob([singleDoc?.data?.image?.src], "image/svg+xml")}
+                docUrl={clientCert}
                 isMobile={isMobile}
-                selectedFont={singleDoc?.data?.fields[0]?.fontFamily}
-                selectedFontSize={singleDoc?.data?.fields[0]?.fontSize}
                 onBackClick={shareImage}
-                imgSize={{
-                  height: singleDoc?.data?.image?.height,
-                  width: singleDoc?.data?.image?.width,
-                }}
-                dimension={{
-                  bottom: singleDoc?.data?.fields[0]?.bottom?.$numberDecimal,
-                  height: singleDoc?.data?.fields[0]?.height?.$numberDecimal,
-                  left: singleDoc?.data?.fields[0]?.left?.$numberDecimal,
-                  right: singleDoc?.data?.fields[0]?.right?.$numberDecimal,
-                  top: singleDoc?.data?.fields[0]?.top?.$numberDecimal,
-                  width: singleDoc?.data?.fields[0]?.width?.$numberDecimal,
-                  x: singleDoc?.data?.fields[0]?.x?.$numberDecimal,
-                  y: singleDoc?.data?.fields[0]?.y?.$numberDecimal,
-                }}
+                productName={singleDoc?.data?.product?.name}
                 docType={""}
               />
             </Grid>

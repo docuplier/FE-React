@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { Link, Outlet } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 import React, { FC } from "react";
 import Footer from "../Footer";
 import { read, utils } from "xlsx";
@@ -14,6 +14,7 @@ import {
   fetchProducts,
   fetchSystemDocs,
 } from "services/documents";
+import ToastContent from "components/ToastContent/ToastContent";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -54,10 +55,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);
 
-  const { data: systemDocs, isFetching: fetchingSystemDocs } = useQuery(
-    "systemDocs",
-    fetchSystemDocs
-  );
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
@@ -91,7 +88,12 @@ const DocumentLayout: FC<IDocumentLayout> = ({
         setUploaded((prev) => ({ ...prev, tableData: { headers, body } }));
         cb();
       } else {
-        toast.error("Please use the required title on your sheet");
+        toast.error(
+          <ToastContent
+            toastType="success"
+            message="Please use the required title on your sheet"
+          />
+        );
       }
     };
 

@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import heroImg from "assets/hero-img.svg";
-import LogoWhite from "assets/logo-white.svg";
+import LogoWhite from "assets/beta logo.png";
 import { useNavigate } from "react-router-dom";
 import { paths } from "Routes";
 
@@ -25,8 +25,11 @@ const HeroSection = ({
     <Container
       sx={{
         height: isMobile ? "100%" : "90vh",
+        width: isMobile ? "95%" : "100%",
         pb: theme.spacing(10),
-        mx: isMobile ? 4 : "",
+        // ml: isMobile ? 2 : "",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <Grid
@@ -37,14 +40,9 @@ const HeroSection = ({
         <Grid item xs={12} sm={6} md={8} display="flex" height="70%">
           <Grid container spacing={4}>
             <Grid item>
-              <img
-                src={LogoWhite}
-                alt=""
-                width={isMobile ? 126.8 : "100%"}
-                height={isMobile ? "32px" : "100%"}
-              />
+              <img src={LogoWhite} alt="" width={"60%"} height={"100%"} />
             </Grid>
-            <Grid item sx={{ mt: isMobile ? 2 : 16 }}>
+            <Grid item sx={{ mt: isMobile ? 2 : 15 }}>
               <Typography variant="h2" mb={theme.spacing(5)}>
                 Effortlessly Generate & Personalize Certificates, Badges, and
                 Invitations
@@ -58,10 +56,10 @@ const HeroSection = ({
                 size="large"
                 fullWidth
                 sx={{
-                  maxWidth: 304,
+                  maxWidth: 290,
                   height: 56,
                   fontSize: "24px",
-                  mt: "30px",
+                  mt: "20px",
                 }}
                 onClick={() =>
                   navigate(paths.CERTIFICATES_UPLOAD, { state: { open: true } })

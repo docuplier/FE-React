@@ -10,6 +10,7 @@ export const ENDPOINTS = {
   idempotencyKey: "/documents/idempotency-key",
   signup: "/users/signup",
   verifyOtp: "/users/verify",
+  resendOtp: "/users",
   save: "/documents",
   getAllDocs: "/documents",
 };
@@ -47,48 +48,48 @@ export const CERTIFICATE_STEPS = [
 export const FONTS = [
   {
     label: "Nunito",
-    value: "'Nunito'",
+    value: "Nunito",
   },
-  { label: "Dosis", value: "'Dosis'" },
+  { label: "Dosis", value: "Dosis" },
   {
     label: "EB Garamond",
-    value: "'EB Garamond'",
+    value: "EB Garamond",
   },
   {
     label: "Fira Sans",
-    value: "'Fira Sans'",
+    value: "Fira Sans",
   },
   {
     label: "Lato",
-    value: "'Lato'",
+    value: "Lato",
   },
   {
     label: "Libre Baskerville",
-    value: "'Libre Baskerville'",
+    value: "Libre Baskerville",
   },
   {
     label: "Libre Caslon Text",
-    value: "'Libre Caslon Text'",
+    value: "Libre Caslon Text",
   },
   {
     label: "Martian Mono",
-    value: "'Martian Mono'",
+    value: "Martian Mono",
   },
   {
     label: "Merriweather",
-    value: "'Merriweather'",
+    value: "Merriweather",
   },
   {
     label: "Montserrat",
-    value: "'Montserrat'",
+    value: "Montserrat",
   },
   {
     label: "Open Sans",
-    value: "'Open Sans'",
+    value: "Open Sans",
   },
   {
     label: "PT Serif",
-    value: "'PT Serif'",
+    value: "PT Serif",
   },
 ];
 
@@ -149,6 +150,10 @@ export const FONTSSIZE = [
   {
     label: "30",
     value: 30,
+  },
+  {
+    label: "31",
+    value: 31,
   },
   {
     label: "32",

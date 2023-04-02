@@ -147,7 +147,15 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         />
         <BrowserRouter>
           <App />
-          <ToastContainer theme="dark" />
+          <ToastContainer
+            theme="dark"
+            draggable={false}
+            hideProgressBar
+            style={{
+              width: 360,
+            }}
+            icon={false}
+          />
         </BrowserRouter>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />

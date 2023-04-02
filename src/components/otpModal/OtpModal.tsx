@@ -41,15 +41,25 @@ export default function OtpModal({
   const theme = useTheme();
   const [otp, setOtp] = React.useState("");
   const [disableSubmit, setDisableSubmit] = React.useState(true);
+  const [disableResend, setDisableResend] = React.useState(true);
   const descriptionElementRef = React.useRef<HTMLElement>(null);
+
+  const handleResend = () => {
+    setTimeout(() => {
+      setDisableResend(false);
+    }, 30000);
+  };
+
   React.useEffect(() => {
     if (open) {
+      handleResend();
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
         descriptionElement.focus();
       }
     } else {
       setOtp("");
+      // setDisableResend(true);
     }
   }, [open]);
 
@@ -106,9 +116,9 @@ export default function OtpModal({
               }}
             />
             {!hideCaption && (
-              <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center" mt={1}>
                 <img src={tooltipIcon} alt="" />
-                <Typography variant="caption">
+                <Typography variant="caption" ml={2}>
                   {captionText || "Check your email for your OTP"}
                 </Typography>
               </Box>
@@ -123,7 +133,7 @@ export default function OtpModal({
             size="large"
             onClick={onResend}
             sx={{ mx: 2 }}
-            disabled={resending}
+            disabled={resending || disableResend}
             startIcon={resending && <CircularProgress size={16} />}
           >
             Resend OTP

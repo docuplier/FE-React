@@ -1,3 +1,50 @@
+:root {
+  --toastify-color-light: #fff;
+  --toastify-color-dark: #3b4df1bc;
+  --toastify-color-info: #3b4cf1;
+  --toastify-color-success: #6af13b;
+  --toastify-color-warning: #f1be3b;
+  --toastify-color-error: #f13b3b;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  --toastify-toast-width: 320px;
+  --toastify-toast-background: #fff;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: sans-serif;
+  --toastify-z-index: 9999;
+
+  --toastify-text-color-light: #757575;
+  --toastify-text-color-dark: #fff;
+  --toastify-text-color-info: #fff;
+  --toastify-text-color-success: #fff;
+  --toastify-text-color-warning: #fff;
+  --toastify-text-color-error: #fff;
+
+  --toastify-spinner-color: #616161;
+  --toastify-spinner-color-empty-area: #e0e0e0;
+
+  --toastify-color-progress-light: linear-gradient(
+    to right,
+    #4cd964,
+    #5ac8fa,
+    #007aff,
+    #34aadc,
+    #5856d6,
+    #ff2d55
+  );
+  --toastify-color-progress-dark: #bb86fc;
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+}
+
 .long-dashed-border {
   border-radius: 8px;
   background-image: repeating-linear-gradient(
@@ -35,4 +82,106 @@
   background-size: 1px 100%, 100% 1px, 1px 100%, 100% 1px;
   background-position: 0 0, 0 0, 100% 0, 0 100%;
   background-repeat: no-repeat;
+}
+/* 
+.react-pdf__Page__textContent {
+  display: none !important;
+} */
+.pdf-page .react-pdf__Page__svg,
+.pdf-page .react-pdf__Page__svg svg {
+  width: 555px !important;
+}
+
+/** Used to define container behavior: width, position: fixed etc... **/
+.Toastify__toast-container {
+}
+
+/** Used to define the position of the ToastContainer **/
+.Toastify__toast-container--top-left {
+}
+.Toastify__toast-container--top-center {
+}
+.Toastify__toast-container--top-right {
+}
+.Toastify__toast-container--bottom-left {
+}
+.Toastify__toast-container--bottom-center {
+}
+.Toastify__toast-container--bottom-right {
+}
+
+/** Classes for the displayed toast **/
+.Toastify__toast {
+  border-left: 4px solid var(--toastify-color-info);
+  border-radius: 8px;
+}
+.Toastify__toast--success {
+  border-left: 4px solid var(--toastify-color-success);
+  border-radius: 8px;
+}
+.Toastify__toast--error {
+  border-left: 4px solid var(--toastify-color-error);
+  border-radius: 8px;
+}
+.Toastify__toast--warning {
+  border-left: 4px solid var(--toastify-color-warning);
+  border-radius: 8px;
+}
+.Toastify__toast--rtl {
+}
+.Toastify__toast-body {
+}
+
+/** Used to position the icon **/
+.Toastify__toast-icon {
+}
+
+/** handle the notification color and the text color based on the theme **/
+.Toastify__toast-theme--dark {
+}
+.Toastify__toast-theme--light {
+}
+.Toastify__toast-theme--colored.Toastify__toast--default {
+}
+.Toastify__toast-theme--colored.Toastify__toast--info {
+}
+.Toastify__toast-theme--colored.Toastify__toast--success {
+}
+.Toastify__toast-theme--colored.Toastify__toast--warning {
+}
+.Toastify__toast-theme--colored.Toastify__toast--error {
+}
+
+.Toastify__progress-bar {
+}
+.Toastify__progress-bar--rtl {
+}
+.Toastify__progress-bar-theme--light {
+}
+.Toastify__progress-bar-theme--dark {
+}
+.Toastify__progress-bar--info {
+}
+.Toastify__progress-bar--success {
+}
+.Toastify__progress-bar--warning {
+}
+.Toastify__progress-bar--error {
+}
+/** colored notifications share the same progress bar color **/
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error {
+}
+
+/** Classes for the close button. Better use your own closeButton **/
+.Toastify__close-button {
+}
+.Toastify__close-button--default {
+}
+.Toastify__close-button > svg {
+}
+.Toastify__close-button:hover,
+.Toastify__close-button:focus {
 }
