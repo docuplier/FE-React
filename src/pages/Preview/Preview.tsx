@@ -152,7 +152,7 @@ const Preview = () => {
         openEmailSetup: false,
         setupEmailPayload: {
           email: resp?.data?.email,
-          name: context?.uploaded?.orgName,
+          name: resp?.data?.name,
         },
         step: 3,
       }));
@@ -376,7 +376,7 @@ const Preview = () => {
       )}
 
       <SetupEmailModal
-        productName={context?.products?.[0]?.name}
+        productName={context?.uploaded?.orgName}
         open={modalControl.openEmailSetup}
         onClose={() =>
           setModalControl((prev) => ({
