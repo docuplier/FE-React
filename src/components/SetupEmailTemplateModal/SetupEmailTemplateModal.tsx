@@ -69,7 +69,7 @@ export default function SetupEmailTemplateModal({
     }));
     onConfirm({ ...data });
   };
-  console.log("err", errors);
+
 
   return (
     <Dialog

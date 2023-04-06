@@ -76,7 +76,7 @@ const Preview = () => {
       //   owner: resp?.data,
       // }));
       setOwner(resp?.data);
-      console.log("resp", resp);
+
       setModalControl((prev) => ({
         ...prev,
         openEmailSetup: false,
@@ -121,7 +121,6 @@ const Preview = () => {
       },
     }
   );
-  console.log("contexttt", context);
 
   const { mutate: resendOtp } = useMutation(resendOTP, {
     onError: (error: AxiosError) => {
@@ -193,8 +192,6 @@ const Preview = () => {
     }
   }, []);
 
-  console.log("cont", context?.uploaded?.description);
-
   const handleContinue = () => {
     if (modalControl.step === 3)
       return setModalControl((prev) => ({
@@ -226,8 +223,8 @@ const Preview = () => {
       formData.append(
         "image",
         JSON.stringify({
-          width: image?.image?.width,
-          height: image?.image?.height,
+          width: context?.uploaded?.docnaturalValue?.width,
+          height: context?.uploaded?.docnaturalValue?.height,
           renderedWidth: context?.uploaded?.renderedAspectRatio?.width,
           renderedHeight: context?.uploaded?.renderedAspectRatio?.height,
         })
@@ -302,6 +299,7 @@ const Preview = () => {
           )
         )
       );
+
       saveData(formData);
     }
   };
@@ -327,7 +325,6 @@ const Preview = () => {
   };
 
   const fontNumber = (context?.uploaded?.renderedAspectRatio?.width / 100) * 60;
-  console.log("cont", context);
 
   return (
     <Stack spacing={12}>
