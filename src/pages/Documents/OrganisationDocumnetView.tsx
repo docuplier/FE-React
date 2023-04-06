@@ -59,7 +59,6 @@ const OrgansationDocumentView = () => {
       },
     }
   );
-  console.log("org", orgDoc);
 
   useEffect(() => {
     let params = {};
@@ -106,8 +105,6 @@ const OrgansationDocumentView = () => {
       },
     }
   );
-
-  console.log("progress", progress);
 
   const exportAsExcel = () => {
     const fileType =

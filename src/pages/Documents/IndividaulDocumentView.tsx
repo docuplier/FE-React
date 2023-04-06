@@ -65,7 +65,7 @@ const IndividualDocument = () => {
       },
     }
   );
-  console.log("single", singleDoc);
+
   useEffect(() => {
     let params = {};
 
