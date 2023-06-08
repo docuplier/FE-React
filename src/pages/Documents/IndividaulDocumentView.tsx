@@ -81,7 +81,7 @@ const IndividualDocument = () => {
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        `https://decuplier.netlify.app/certifcates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
+        `https://docuplier.com/certificates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
       )}`
     );
   };
