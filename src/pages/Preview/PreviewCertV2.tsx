@@ -186,7 +186,6 @@ const PreviewCertV2 = ({
             },
           }}
           onClick={(e) => {
-            console.log(docUrl);
             let alink = document.createElement("a");
             if (docUrl) {
               alink.href = docUrl;
