@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { CircularProgress, useMediaQuery, useTheme } from "@mui/material";
 import { useRef } from "react";
 import { jsPDF } from "jspdf";
 import { useOutletContext } from "react-router-dom";
@@ -32,6 +32,7 @@ const PreviewCertV2 = ({
   backText,
   docType,
   separateButtons,
+  loading,
 }: {
   fullName: string;
   productName: string;
@@ -40,6 +41,7 @@ const PreviewCertV2 = ({
   onBackClick: (data: any) => void;
   backText?: string;
   docType: string;
+  loading?: boolean;
   separateButtons?: boolean;
 }) => {
   const theme = useTheme();
@@ -109,25 +111,28 @@ const PreviewCertV2 = ({
               : ""}
           </span>
         </Typography>
-
-        {docUrl && (
-          <Box ref={ref} position="relative" id="certificate-container">
-            <Document
-              loading={<LinearProgress />}
-              file={{
-                url: docUrl,
-              }}
-              renderMode="svg"
-            >
-              <Page
-                onLoadSuccess={removeTextLayerOffset}
+        {loading ? (
+          <CircularProgress size={30} />
+        ) : (
+          docUrl && (
+            <Box ref={ref} position="relative" id="certificate-container">
+              <Document
                 loading={<LinearProgress />}
-                renderTextLayer={false}
-                pageNumber={1}
-                width={isMobile && !matches ? 315 : matches ? 260 : 600}
-              />
-            </Document>
-          </Box>
+                file={{
+                  url: docUrl,
+                }}
+                renderMode="svg"
+              >
+                <Page
+                  onLoadSuccess={removeTextLayerOffset}
+                  loading={<LinearProgress />}
+                  renderTextLayer={false}
+                  pageNumber={1}
+                  width={isMobile && !matches ? 315 : matches ? 260 : 600}
+                />
+              </Document>
+            </Box>
+          )
         )}
 
         <Typography
@@ -186,7 +191,6 @@ const PreviewCertV2 = ({
             },
           }}
           onClick={(e) => {
-            console.log(docUrl);
             let alink = document.createElement("a");
             if (docUrl) {
               alink.href = docUrl;

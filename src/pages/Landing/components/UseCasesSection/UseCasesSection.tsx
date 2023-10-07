@@ -3,6 +3,7 @@ import certificate from "assets/certificate.svg";
 import badge from "assets/badge.svg";
 import tag from "assets/tag.svg";
 import invitation from "assets/invitation.svg";
+import { useOutletContext } from "react-router-dom";
 
 const data = [
   {
@@ -33,6 +34,7 @@ const data = [
 
 const UseCasesSection = () => {
   const theme = useTheme();
+  const context: any = useOutletContext();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Grid
@@ -42,8 +44,8 @@ const UseCasesSection = () => {
       // pl="12rem"
       // pr="12rem"
       sx={{
-        pl: isMobile ? 0 : "10rem",
-        pr: isMobile ? 0 : "9rem",
+        pl: isMobile ? 0 : "5rem",
+        pr: isMobile ? 0 : "5rem",
       }}
       //  sx={{ width: "100%" }}
       display="flex"

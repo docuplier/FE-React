@@ -93,8 +93,24 @@ export const FONTS = [
   },
 ];
 
+export const FONTSTYLE = [
+  { label: "Normal", value: "normal" },
+  { label: "Bold", value: "bolder" },
+  { label: "Italic", value: "italic" },
+];
+
+export const FONTCAPITALIZE = [
+  { label: "Uppercase", cssValue: "uppercase", value: "upper-case" },
+  { label: "Lowercase", cssValue: "lowercase", value: "lower-case" },
+  { label: "Capitalize", cssValue: "capitalize", value: "sentence-case" },
+];
+
 export const FONTSSIZE = [
   { label: "10", value: 10 },
+  {
+    label: "11",
+    value: 11,
+  },
   {
     label: "12",
     value: 12,
@@ -140,12 +156,32 @@ export const FONTSSIZE = [
     value: 22,
   },
   {
+    label: "23",
+    value: 23,
+  },
+  {
     label: "24",
     value: 24,
   },
   {
+    label: "25",
+    value: 25,
+  },
+  {
+    label: "26",
+    value: 26,
+  },
+  {
+    label: "27",
+    value: 27,
+  },
+  {
     label: "28",
     value: 28,
+  },
+  {
+    label: "29",
+    value: 29,
   },
   {
     label: "30",
@@ -160,10 +196,30 @@ export const FONTSSIZE = [
     value: 32,
   },
   {
+    label: "33",
+    value: 33,
+  },
+  {
     label: "34",
     value: 34,
   },
+  {
+    label: "35",
+    value: 35,
+  },
+  {
+    label: "36",
+    value: 36,
+  },
+  {
+    label: "37",
+    value: 37,
+  },
   { label: "38", value: 38 },
+  {
+    label: "39",
+    value: 39,
+  },
   {
     label: "40",
     value: 40,
@@ -178,5 +234,14 @@ export const EXCEL_TEMPLATE_DATA = [
   {
     "Recipient Full Name": "Jane Martha Darwin",
     "Recipient Email Address": "jmd@mailinator.com",
+  },
+];
+
+export const EXCEL_TEMPLATE_DATA_NAME_ONLY = [
+  {
+    "Recipient Full Name": "Michael Jackson",
+  },
+  {
+    "Recipient Full Name": "Jane Martha Darwin",
   },
 ];

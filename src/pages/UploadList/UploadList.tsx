@@ -11,17 +11,23 @@ import { saveAs } from "file-saver";
 import Dropzone from "components/Dropzone/Dropzone";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Spreadsheet from "assets/Spreadsheet.svg";
-import { paths } from "Routes";
 import React from "react";
-import { EXCEL_TEMPLATE_DATA } from "constants/appConstants";
+import {
+  EXCEL_TEMPLATE_DATA,
+  EXCEL_TEMPLATE_DATA_NAME_ONLY,
+} from "constants/appConstants";
 import { utils, write } from "xlsx";
 import { getPathByName } from "utils/getPathsByName";
+import Modal from "shared/Layout/Modal";
 
 const excelFileHeader = ["Recipient Full Name", "Recipient Email Address"];
+const excelFileHeaderNameOnly = ["Recipient Full Name"];
 
 const UploadList = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [listType, setListType] = useState("");
+  const [openModal, setOpenModal] = React.useState<boolean>(true);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
   const [isFile, setIsFile] = useState<any>(false);
@@ -30,9 +36,23 @@ const UploadList = () => {
   };
 
   const handleUpload = (data: File) => {
-    context?.readUploadFile(data, excelFileHeader, () => {
-      navigate(getPathByName(context.activeTab, 3));
-    });
+    if (listType === "email") {
+      context?.readUploadFile(data, excelFileHeader, () => {
+        navigate(getPathByName(context.activeTab, 3));
+      });
+      context?.setUploaded((prev: any) => ({
+        ...prev,
+        listType,
+      }));
+    } else {
+      context?.readUploadFile(data, excelFileHeaderNameOnly, () => {
+        navigate(getPathByName(context.activeTab, 3));
+      });
+      context?.setUploaded((prev: any) => ({
+        ...prev,
+        listType,
+      }));
+    }
   };
 
   React.useEffect(() => {
@@ -49,7 +69,20 @@ const UploadList = () => {
     const data = new Blob([excelBuffer], { type: fileType });
     saveAs(data, `recipients-template${ext}`);
   };
-
+  const exportAsExcelNameOnly = () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
+    const ext = ".xlsx";
+    const ws = utils.json_to_sheet(EXCEL_TEMPLATE_DATA_NAME_ONLY);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    saveAs(data, `recipients-template${ext}`);
+  };
+  const buttonLeftAtn = () => {
+    setListType("none");
+    setOpenModal(false);
+  };
   return (
     <Stack spacing={12}>
       <Box
@@ -85,7 +118,9 @@ const UploadList = () => {
               title="Click to download template"
               src={Spreadsheet}
               style={isMobile ? imgStyle : { cursor: "pointer" }}
-              onClick={() => exportAsExcel()}
+              onClick={() =>
+                listType === "email" ? exportAsExcel() : exportAsExcelNameOnly()
+              }
             />
           </>
         )}
@@ -119,6 +154,19 @@ const UploadList = () => {
         >
           Back
         </Button>
+        <Modal
+          open={openModal}
+          title="Upload List"
+          content="Do you want to upload only recipients’ name or both recipients’ name and email?
+If you upload only the names you won’t be able to send the certificates to their email but you can download the certificates."
+          onButtnLeftActn={buttonLeftAtn}
+          okBtnText="Name & Email"
+          buttonLeft="Name Only"
+          okBtnAction={() => {
+            setListType("email");
+            setOpenModal(false);
+          }}
+        />
       </Box>
     </Stack>
   );

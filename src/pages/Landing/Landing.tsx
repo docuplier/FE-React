@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "components/Layout/Footer";
 import {
@@ -10,6 +11,7 @@ import {
 
 const Landing = () => {
   const theme = useTheme();
+
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Grid container direction="column">

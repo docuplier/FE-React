@@ -22,6 +22,7 @@ import PageSpinner from "components/pageSpinner/PageSpinner";
 import { format } from "date-fns";
 import PreviewCert from "pages/Preview/PreviewCert";
 import PreviewCertV2 from "pages/Preview/PreviewCertV2";
+import ToastContent from "components/ToastContent/ToastContent";
 
 const IndividualDocument = () => {
   const queryClient = useQueryClient();
@@ -39,9 +40,12 @@ const IndividualDocument = () => {
       onError: (e: AxiosError) => {
         const errData: any = e.response?.data;
         if (errData?.message) {
-          toast(errData.message, {
-            type: "error",
-          });
+          toast.error(
+            <ToastContent
+              toastType="error"
+              message={errData.message || "Unable to get data from server"}
+            />
+          );
         }
       },
       onSuccess: () => {
@@ -58,9 +62,12 @@ const IndividualDocument = () => {
       onError: (e: AxiosError) => {
         const errData: any = e.response?.data;
         if (errData?.message) {
-          toast(errData.message, {
-            type: "error",
-          });
+          toast.error(
+            <ToastContent
+              toastType="error"
+              message={errData.message || "Unable to get data from server"}
+            />
+          );
         }
       },
     }
@@ -81,11 +88,10 @@ const IndividualDocument = () => {
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        `https://docuplier.com/certificates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
+        `https://decuplier.netlify.app/certifcates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
       )}`
     );
   };
-
   if (fetchingSingleDoc) return <PageSpinner />;
   return (
     <Box
@@ -170,6 +176,7 @@ const IndividualDocument = () => {
                 onBackClick={shareImage}
                 productName={singleDoc?.data?.product?.name}
                 docType={""}
+                loading={fetchingClientCert}
               />
             </Grid>
           </Grid>
