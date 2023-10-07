@@ -1,4 +1,11 @@
-import { Box, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useQuery } from "react-query";
 import { Link, Outlet } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
@@ -15,6 +22,7 @@ import {
   fetchSystemDocs,
 } from "services/documents";
 import ToastContent from "components/ToastContent/ToastContent";
+import ConstrutionImage from "assets/construct.svg";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -90,7 +98,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({
       } else {
         toast.error(
           <ToastContent
-            toastType="success"
+            toastType="error"
             message="Please use the required title on your sheet"
           />
         );
@@ -159,25 +167,44 @@ const DocumentLayout: FC<IDocumentLayout> = ({
               </Grid>
             )}
             <Grid item xs={12}>
-              <Outlet
-                context={{
-                  setCurrentStep,
-                  uploaded,
-                  setUploaded,
-                  readUploadFile,
-                  products: products?.data,
-                  isFetchingProducts,
-                  isFetchingIndenPontencyKey,
-                  productId: products?.data?.find(
-                    (v: any) => v?.name === activeTab
-                  )?._id,
-                  activeTab,
-                }}
-              />
+              {activeTab === "Badges" ||
+              activeTab === "Tags" ||
+              activeTab === "Invitations" ? (
+                <Box
+                  className="dropzone long-dashed-border"
+                  p={8}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                >
+                  <Typography sx={{ fontSize: "32px", fontWeight: 700 }}>
+                    Coming Soon !
+                  </Typography>
+                  <img src={ConstrutionImage} alt="under construction" />
+                </Box>
+              ) : (
+                <Outlet
+                  context={{
+                    setCurrentStep,
+                    uploaded,
+                    setUploaded,
+                    readUploadFile,
+                    products: products?.data,
+                    isFetchingProducts,
+                    isFetchingIndenPontencyKey,
+                    productId: products?.data?.find(
+                      (v: any) => v?.name === activeTab
+                    )?._id,
+                    activeTab,
+                  }}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+
       <Footer />
     </Box>
   );

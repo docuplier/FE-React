@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Theme } from "@mui/material";
 
 const PreviewExcelTable = ({
@@ -38,6 +38,8 @@ const PreviewExcelTable = ({
   theme: Theme;
 }) => {
   const navigate = useNavigate();
+  const context: any = useOutletContext();
+
   return (
     <>
       <Box
@@ -84,10 +86,28 @@ const PreviewExcelTable = ({
               }}
               aria-label="simple table"
             >
-              <TableHead>
-                <TableRow>
+              <TableHead
+                sx={{
+                  mx: 0,
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <TableRow sx={{ width: "100%" }}>
                   {tableHeaders?.map((val: any) => (
-                    <TableCell key={val.field}>{val.title}</TableCell>
+                    <TableCell
+                      key={val.field}
+                      sx={{
+                        width:
+                          context?.uploaded?.listType === "none" ? "100%" : "",
+                        textAlign:
+                          context?.uploaded?.listType === "none"
+                            ? "center"
+                            : "",
+                      }}
+                    >
+                      {val.title}
+                    </TableCell>
                   ))}
                   {/* {rows?.map((props) => (
                     <TableCell>{props}</TableCell>
@@ -100,7 +120,6 @@ const PreviewExcelTable = ({
                     key={row?.recipient_full_name}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-
                       padding: 0,
                     }}
                   >
@@ -121,16 +140,17 @@ const PreviewExcelTable = ({
                       )}
                     </TableCell>
                     <TableCell>
-                      {row?.recipient_email_address || (
-                        <Typography
-                          variant="overline"
-                          color="red"
-                          fontStyle="italic"
-                          textTransform="capitalize"
-                        >
-                          [Missing Field]
-                        </Typography>
-                      )}
+                      {context?.uploaded?.listType === "email" &&
+                        (row?.recipient_email_address || (
+                          <Typography
+                            variant="overline"
+                            color="red"
+                            fontStyle="italic"
+                            textTransform="capitalize"
+                          >
+                            [Missing Field]
+                          </Typography>
+                        ))}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,3 +1,4 @@
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -22,6 +23,9 @@ const PreviewCert = ({
   separateButtons,
   selectedFontSize,
   hideDownloadbtn = true,
+  selectedFontStyle,
+  colorChange,
+  selectedFontCase,
 }: {
   fullName: string;
   isMobile: boolean;
@@ -44,9 +48,14 @@ const PreviewCert = ({
   docType: string;
   hideDownloadbtn?: boolean;
   separateButtons?: boolean;
+  selectedFontStyle?: string;
+  selectedFontCase?: string;
+  colorChange?: string;
 }) => {
   const context = useOutletContext();
   const ref = useRef<HTMLDivElement>();
+  const [cssSelectedFontCase, setCSSSelectedFontCase] =
+    React.useState<string>("uppercase");
   const draggableRef = useRef<HTMLDivElement | null>(null);
   const printDocument = async (e: any) => {
     e.preventDefault();
@@ -77,6 +86,24 @@ const PreviewCert = ({
     }
   };
 
+  const handleCssFontCapitalize = () => {
+    switch (selectedFontCase) {
+      case "lower-case":
+        setCSSSelectedFontCase("lowercase");
+        break;
+      case "upper-case":
+        setCSSSelectedFontCase("uppercase");
+        break;
+      case "sentence-case":
+        setCSSSelectedFontCase("capitalize");
+        break;
+      default:
+        setCSSSelectedFontCase("uppercase");
+    }
+  };
+  React.useEffect(() => {
+    handleCssFontCapitalize();
+  }, [selectedFontCase]);
   return (
     <>
       <Box
@@ -168,9 +195,14 @@ const PreviewCert = ({
                           sm: pxToRem(14),
                           md: `${selectedFontSize}px`,
                         }}
+                        //@ts-ignore
                         sx={{
                           fontFamily: selectedFont,
-                          fontWeight: 800,
+                          textTransform: cssSelectedFontCase,
+                          fontWeight: selectedFontStyle,
+                          textAlign: "center",
+                          color: colorChange,
+                          fontStyle: selectedFontStyle,
                         }}
                         variant="h1"
                         // color="#8F9099"

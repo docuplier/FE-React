@@ -55,21 +55,24 @@ const Preview = () => {
     onError: (error: AxiosError) => {
       const errData: any = error.response?.data;
       if (errData?.message) {
-        toast(
-          errData.message ||
-            "Something went wrong while trying to send request",
-          {
-            type: "error",
-          }
+        toast.error(
+          <ToastContent
+            toastType="error"
+            message={
+              errData.message || "Unable to create user. Please try again"
+            }
+          />
         );
       }
     },
     onSuccess: (resp: any) => {
-      toast(
-        resp?.message || `Success: An OTP has been sent to ${resp.data.email}`,
-        {
-          type: "success",
-        }
+      toast.success(
+        <ToastContent
+          toastType="success"
+          message={
+            resp?.message || `An OTP has been sent to ${resp.data.email}`
+          }
+        />
       );
       // context?.setUploaded((prev: any) => ({
       //   ...prev,
@@ -92,12 +95,14 @@ const Preview = () => {
       onError: (error: AxiosError) => {
         const errData: any = error.response?.data;
         if (errData?.message) {
-          toast(
-            errData.message ||
-              "Something went wrong while trying to send request",
-            {
-              type: "error",
-            }
+          toast.error(
+            <ToastContent
+              toastType="error"
+              message={
+                errData.message ||
+                "Something went wrong while trying to send request"
+              }
+            />
           );
         }
         setModalControl((prev) => ({
@@ -106,12 +111,13 @@ const Preview = () => {
         }));
       },
       onSuccess: (resp: any) => {
-        toast(
-          resp?.message ||
-            `Success: An OTP has been sent to ${resp.data.email}`,
-          {
-            type: "success",
-          }
+        toast.success(
+          <ToastContent
+            toastType="success"
+            message={
+              resp?.message || `An OTP has been sent to ${resp.data.email}`
+            }
+          />
         );
         setModalControl((prev) => ({
           ...prev,
@@ -121,31 +127,24 @@ const Preview = () => {
       },
     }
   );
-
   const { mutate: resendOtp } = useMutation(resendOTP, {
     onError: (error: AxiosError) => {
-      toast(
-        error?.message || "Something went wrong while trying to send request",
-        {
-          type: "error",
-        }
+      toast.error(
+        <ToastContent
+          toastType="error"
+          message={error?.message || "Unable to get data from server"}
+        />
       );
     },
     onSuccess: (resp: any) => {
-      toast(
-        resp?.message ||
-          `Success: An OTP has been re-sent to ${resp.data.email}`,
-        {
-          type: "success",
-        }
+      toast.success(
+        <ToastContent
+          toastType="success"
+          message={
+            resp?.message || `An OTP has been re-sent to ${resp.data.email}`
+          }
+        />
       );
-      // context?.setUploaded((prev: any) => ({
-      //   ...prev,
-      //   owner: resp?.data,
-      // }));
-      // setOwner(resp?.data);
-      // console.log("resss", resp);
-
       setModalControl((prev) => ({
         ...prev,
         openEmailSetup: false,
@@ -183,6 +182,7 @@ const Preview = () => {
       },
     }
   );
+  const rgbValues = context?.uploaded?.colorChange?.match(/\d+/g);
 
   React.useEffect(() => {
     context?.setCurrentStep(3);
@@ -191,7 +191,6 @@ const Preview = () => {
       navigate("/");
     }
   }, []);
-
   const handleContinue = () => {
     if (modalControl.step === 3)
       return setModalControl((prev) => ({
@@ -218,6 +217,7 @@ const Preview = () => {
       } else {
         formData.append("description", " ");
       }
+      formData.append("notificationMode", uploaded?.listType);
 
       formData.append("docImage", image?.image?.src, image?.dataFile?.name);
       formData.append(
@@ -233,12 +233,21 @@ const Preview = () => {
       formData.append("product", context?.productId);
       formData.append("owner", owner?._id);
       formData.append("emailText", uploaded?.description);
+      const rgbValues = uploaded?.colorChange?.match(/\d+/g);
+
       const field = {
         fields: [
           {
             fieldName: "name",
             fontFamily: uploaded?.selectedFont,
             fontSize: uploaded?.selectedFontSize,
+            fontStyle: uploaded?.selectedFontStyle,
+            fontCapitalization: uploaded?.selectedFontCase,
+            fontColour: {
+              red: rgbValues[0],
+              green: rgbValues[1],
+              blue: rgbValues[2],
+            },
             width: (60 / 100) * context?.uploaded?.renderedAspectRatio?.width,
             height: 30.25,
             top: uploaded?.dimension?.top,
@@ -247,7 +256,7 @@ const Preview = () => {
             right: uploaded?.dimension?.right,
             x: uploaded?.dimension?.x,
             y: uploaded?.dimension?.y,
-            color: "rgb(0,0,0)",
+            // color: "rgb(0,0,0)",
           },
         ],
       };
@@ -259,6 +268,10 @@ const Preview = () => {
             (v: {
               fieldName: string;
               fontFamily: string;
+              fontSize: number;
+              fontStyle: string;
+              fontCapitalization: string;
+              fontColour: object;
               width: number;
               height: number;
               top: number;
@@ -267,10 +280,14 @@ const Preview = () => {
               right: number;
               x: number;
               y: number;
-              color: string;
+              // color: string;
             }) => ({
               fieldName: v.fieldName,
               fontFamily: v.fontFamily,
+              fontSize: v.fontSize,
+              fontStyle: v.fontStyle,
+              fontCapitalization: v.fontCapitalization,
+              fontColour: v.fontColour,
               width: v.width,
               height: v.height,
               top: v.top,
@@ -279,7 +296,7 @@ const Preview = () => {
               right: v.right,
               x: v.x,
               y: v.y,
-              color: v.color,
+              // color: v.color,
             })
           )
         )
@@ -303,7 +320,7 @@ const Preview = () => {
       saveData(formData);
     }
   };
-
+  console.log("mee", context?.uploaded);
   const exportAsExcel = () => {
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
@@ -339,12 +356,17 @@ const Preview = () => {
           doc={context?.uploaded?.doc}
           isMobile={isMobile}
           selectedFont={context?.uploaded?.selectedFont}
+          selectedFontStyle={context?.uploaded?.selectedFontStyle}
+          colorChange={context?.uploaded?.colorChange}
           onBackClick={() => setShowPreview(false)}
           imgSize={{
             height: context?.uploaded?.image?.height,
             width: context?.uploaded?.image?.width,
           }}
-          selectedFontSize={(5 / 100) * fontNumber}
+          selectedFontSize={
+            context?.uploaded?.selectedFontSize || (5 / 100) * fontNumber
+          }
+          selectedFontCase={context?.uploaded?.selectedFontCase}
           dimension={context?.uploaded?.dimension}
           docType={context?.uploaded?.dataFile?.type}
           separateButtons
@@ -362,7 +384,8 @@ const Preview = () => {
             }))
           }
           disableEmailToRecipient={checkMissingFields(
-            context?.uploaded?.tableData?.body
+            context?.uploaded?.tableData?.body,
+            context?.uploaded?.listType
           )}
           step={modalControl.step}
           loading={completingProcess}

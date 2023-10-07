@@ -22,7 +22,10 @@ const UploadDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const [open, setOpen] = useState(location?.state?.open);
+  const [open, setOpen] = useState(
+    false
+    // location?.state?.open
+  );
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
 

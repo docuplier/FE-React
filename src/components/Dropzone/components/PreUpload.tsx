@@ -44,7 +44,7 @@ const PreUpload = ({
           color={fileName && "success.main"}
           sx={{
             textAlign: isMobile ? "center" : "",
-            display: isMobile ? "none" : "block",
+            // display: isMobile ? "none" : "block",
           }}
         >
           {fileName ? fileName : "Drag and Drop here"}

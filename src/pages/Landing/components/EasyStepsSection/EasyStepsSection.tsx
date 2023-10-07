@@ -96,6 +96,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
       spacing={10}
       p={isMobile ? 4 : 16}
       sx={{ pl: isMobile ? 4 : "10rem", pr: isMobile ? 4 : "10rem" }}
+      id={"easy4"}
     >
       <Grid item width="100%">
         <Typography variant="h2" textAlign="center">

@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { format } from "date-fns";
+import ToastContent from "components/ToastContent/ToastContent";
 
 const OrgansationDocumentView = () => {
   const theme = useTheme();
@@ -52,9 +53,12 @@ const OrgansationDocumentView = () => {
       onError: (e: AxiosError) => {
         const errData: any = e.response?.data;
         if (errData?.message) {
-          toast(errData.message, {
-            type: "error",
-          });
+          toast.error(
+            <ToastContent
+              toastType="error"
+              message={errData.message || "Unable to get data from server"}
+            />
+          );
         }
       },
     }
@@ -98,9 +102,14 @@ const OrgansationDocumentView = () => {
         setDownload(false);
         const errData: any = e.response?.data;
         if (errData?.message) {
-          toast(errData.message, {
-            type: "error",
-          });
+          toast.error(
+            <ToastContent
+              toastType="error"
+              message={
+                errData.message || "Unable to get data from server. Try again"
+              }
+            />
+          );
         }
       },
     }
@@ -330,9 +339,10 @@ const OrgansationDocumentView = () => {
         <Button
           variant="contained"
           sx={{ height: "56px", width: "100%", fontSize: "1rem" }}
-          onClick={() => exportAsExcel()}
+          onClick={() => setDownload(true)}
+          disabled={fetchingOrgCerts}
         >
-          Download All & Print
+          {fetchingOrgCerts ? `Downloading...` : "Download All & Print"}
         </Button>
       </Box>
       <Box sx={{ mt: 10 }}>

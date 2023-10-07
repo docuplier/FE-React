@@ -10,7 +10,7 @@ export const paths = {
   CERTIFICATES_UPLOAD_LIST: "/certificates/upload-list",
   CERTIFICATES_PREVIEW: "/certificates/preview",
   CERTIFICATES_SUCCESS: "/certificates/success",
-
+  SIGNIN: "/signin",
   BADGES: "/badges",
   BADGES_UPLOAD: "/badges/upload",
   BADGES_NAME: "/badges/name-field",
@@ -37,6 +37,11 @@ export const paths = {
 
 const routes = {
   main: [
+    {
+      path: paths.SIGNIN,
+      exact: true,
+      component: lazy(() => import("../pages/Auth/Login")),
+    },
     {
       path: paths.HOME,
       exact: true,

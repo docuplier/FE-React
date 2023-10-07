@@ -17,14 +17,22 @@ export const validateTitles = (
   }
 };
 
-export const checkMissingFields = (data: any) => {
+export const checkMissingFields = (data: any, listTupe: string) => {
   const d: any = [];
 
   data?.forEach((elem: any) => {
-    if (elem.recipient_email_address && elem.recipient_full_name) {
-      d.push(true);
+    if (listTupe === "Name-Email") {
+      if (elem.recipient_email_address && elem.recipient_full_name) {
+        d.push(true);
+      } else {
+        d.push(false);
+      }
     } else {
-      d.push(false);
+      if (elem.recipient_full_name) {
+        d.push(true);
+      } else {
+        d.push(false);
+      }
     }
   });
   return d.includes(false);
