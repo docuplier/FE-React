@@ -37,7 +37,7 @@ import { getPathByName } from "utils/getPathsByName";
 import { useImageSize } from "react-image-size";
 import PageSpinner from "components/pageSpinner/PageSpinner";
 import { fetchIndenpontencyKey } from "services/documents";
-import { ChromePicker } from "react-color";
+// import { ChromePicker } from 'react-color';
 import { makeStyles } from "@mui/styles";
 
 const AddText = () => {
