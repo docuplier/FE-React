@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.MuiTypography-root span {
+  background-color: transparent !important;
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #757575 #757575;
+}
+
+body::-webkit-scrollbar-track {
+  background: white;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #757575;
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar {
+  width: 9px;
+}
+iframe {
+  display: none;
+  user-select: none;
+}

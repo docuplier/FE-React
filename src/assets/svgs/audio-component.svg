@@ -1,0 +1,34 @@
+<svg width="576" height="480" viewBox="0 0 576 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="576" height="480" fill="#E7E7ED"/>
+<rect x="16" y="16" width="544.906" height="240" rx="4" fill="#F7F8F9"/>
+<rect x="192" y="98" width="8" height="76" rx="4" fill="#A7A9BC"/>
+<rect x="208" y="104" width="8" height="64" rx="4" fill="#A7A9BC"/>
+<rect x="224" y="109" width="8" height="54" rx="4" fill="#A7A9BC"/>
+<rect x="240" y="117" width="8" height="38" rx="4" fill="#A7A9BC"/>
+<rect x="256" y="123" width="8" height="26" rx="4" fill="#A7A9BC"/>
+<rect x="272" y="117" width="8" height="38" rx="4" fill="#A7A9BC"/>
+<rect x="288" y="104" width="8" height="64" rx="4" fill="#A7A9BC"/>
+<rect x="304" y="98" width="8" height="76" rx="4" fill="#A7A9BC"/>
+<rect x="320" y="104" width="8" height="64" rx="4" fill="#A7A9BC"/>
+<rect x="336" y="98" width="8" height="76" rx="4" fill="#A7A9BC"/>
+<rect x="352" y="123" width="8" height="26" rx="4" fill="#A7A9BC"/>
+<rect x="368" y="117" width="8" height="38" rx="4" fill="#A7A9BC"/>
+<rect x="384" y="117" width="8" height="38" rx="4" fill="#A7A9BC"/>
+<rect x="400" y="123" width="8" height="26" rx="4" fill="#A7A9BC"/>
+<rect x="416" y="129" width="8" height="14" rx="4" fill="#A7A9BC"/>
+<rect x="432" y="133" width="8" height="6" rx="3" fill="#A7A9BC"/>
+<rect x="448" y="109" width="8" height="54" rx="4" fill="#A7A9BC"/>
+<rect x="464" y="98" width="8" height="76" rx="4" fill="#A7A9BC"/>
+<rect x="480" y="109" width="8" height="54" rx="4" fill="#A7A9BC"/>
+<rect x="496" y="98" width="8" height="76" rx="4" fill="#A7A9BC"/>
+<path opacity="0.3" d="M154.257 157.414C152.434 158.433 150.13 157.782 149.111 155.959C148.092 154.136 148.743 151.833 150.566 150.813C155.714 147.934 158.968 142.504 158.968 136.5C158.968 130.54 155.762 125.144 150.674 122.248C148.859 121.215 148.225 118.906 149.258 117.091C150.291 115.276 152.6 114.642 154.415 115.675C161.842 119.903 166.531 127.794 166.531 136.5C166.531 145.271 161.772 153.211 154.257 157.414Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M107.291 156.667L90.1888 153.246C85.4756 152.303 82.083 148.165 82.083 143.359V129.641C82.083 124.835 85.4756 120.696 90.1888 119.754L107.291 116.333L123.893 99.7316C125.862 97.7627 129.054 97.7627 131.023 99.7316C131.968 100.677 132.5 101.959 132.5 103.297V169.703C132.5 172.488 130.242 174.745 127.458 174.745C126.121 174.745 124.838 174.214 123.893 173.268L107.291 156.667Z" fill="black"/>
+<rect x="16" y="288" width="545" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="16" y="312" width="545" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="16" y="336" width="545" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="16" y="360" width="461.967" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="88" y="400" width="176" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="88" y="424" width="176" height="8" rx="4" fill="#A7A9BC"/>
+<rect x="88" y="448" width="104" height="8" rx="4" fill="#A7A9BC"/>
+<circle cx="44" cy="428" r="28" fill="#A7A9BC"/>
+</svg>

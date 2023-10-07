@@ -1,0 +1,20 @@
+/* App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0; /* Background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('assets/svgs/group-folders.svg');
+}
+
+.content {
+  background-color: #fff; /* Content background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
