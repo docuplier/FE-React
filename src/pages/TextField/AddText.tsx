@@ -7,20 +7,14 @@ import {
   Grid,
   MenuItem,
   Select,
-  Stack,
   TextField,
-  TextareaAutosize,
   Typography,
   hexToRgb,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { PDFtoIMG } from "react-pdf-to-image";
-import { Document, Page } from "react-pdf";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { paths } from "Routes";
-import { styled } from "@mui/material";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 // @ts-ignore
@@ -30,25 +24,15 @@ import {
   FONTCAPITALIZE,
   FONTSTYLE,
 } from "constants/appConstants";
-import { pxToRem } from "utils/pxToRem";
-import borderImg from "../../assets/border.png";
 import { useQuery } from "react-query";
 import { getPathByName } from "utils/getPathsByName";
 import { useImageSize } from "react-image-size";
-import PageSpinner from "components/pageSpinner/PageSpinner";
 import { fetchIndenpontencyKey } from "services/documents";
-// import { ChromePicker } from 'react-color';
-import { makeStyles } from "@mui/styles";
 
 const AddText = () => {
-  const pdfWrapper: any = useRef(null);
-
   const [width, setWidth] = React.useState(0);
   const [images, setImages] = React.useState<string[]>([]);
   const [height, setHeight] = React.useState(0);
-  const classes = useStyles();
-
-  const [pdfPageWidth, setPdfPageWidth] = useState(0);
 
   const [dimension, setDimension] = useState({
     top: 0,
@@ -94,7 +78,6 @@ const AddText = () => {
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("idempotencyKeyValue", fetchIndenpontencyKey);
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
-    console.log("dd", data);
     const left =
       val?.left! > draggableVal?.left!
         ? val?.left! - draggableVal?.left!
@@ -116,7 +99,7 @@ const AddText = () => {
         ? val?.x! - draggableVal?.x!
         : draggableVal?.x! - val?.x!;
     const y =
-      // data?.lastY - height;
+      // data?.lastY - height - 12;
       val?.y! > draggableVal?.y!
         ? val?.y! - draggableVal?.y!
         : draggableVal?.y! - val?.y!;
@@ -124,7 +107,7 @@ const AddText = () => {
     setDimension({
       left,
       right,
-      bottom: bottom - 7,
+      bottom,
       top,
       x,
       y,
@@ -138,10 +121,10 @@ const AddText = () => {
     setBound({
       left: val?.left!,
       right: val?.right!,
-      top: val?.top!,
-      bottom: val?.bottom!,
+      top: val?.top! + 30,
+      bottom: 0,
       x: val?.x!,
-      y: val?.y!,
+      y: 0,
     });
   };
 
@@ -219,6 +202,7 @@ const AddText = () => {
     const val = evt.target.value;
     setSelectedFont(val);
   };
+
   const handleFontStyleChange = (evt: any) => {
     const val = evt.target.value;
     setSelectedFontStyle(val);
@@ -248,46 +232,17 @@ const AddText = () => {
 
   return (
     <>
-      <Grid
-        container
-        // display="flex"
-        spacing={3}
-        display="flex"
-        justifyContent="center"
-        // width="100%"
-        // justifyContent="center"
-        // alignItems="center"
-      >
+      <Grid container spacing={3} display="flex" justifyContent="center">
         {!isMobile2 ? (
           <>
             <Grid
               item
-              // spacing={3}
               md={2.1}
               display="flex"
               mb={6}
               alignItems="flex-end"
-              // width="100%"
               justifyContent="center"
-              // flexWrap="wrap"
-              // alignItems="center"
-              // gap={6}
-              sx={
-                {
-                  // backgroundColor: "red",
-                  // "@media screen and (max-width:768px)": {
-                  //   width: "100%",
-                  // },
-                }
-              }
-              //   flexWrap="wrap"
             >
-              {" "}
-              {/* <Box
-                display="flex"
-                alignItems="flex-end"
-                // width={isMobile ? "100%" : "15%"}
-              > */}{" "}
               <Button
                 variant="contained"
                 fullWidth={isMobile}
@@ -302,30 +257,19 @@ const AddText = () => {
               >
                 {isMobile ? "Add Text" : "Add A Text Field"}
               </Button>
-              {/* </Box> */}
             </Grid>
-            {/* {!isMobile && ( */}
             <Grid item md={9.5} display={"flex"} mb={6}>
               <Grid
                 container
                 display={"flex"}
                 spacing={3}
                 md={12}
-                // display="flex"
                 sx={{
-                  // marginRight: showStyleBtns ? 0 : "-100%", // Slide in from the right
-                  // transition: "marginight 0.5s ease",
                   overflow: "hidden",
-                  // marginRight: "100%",
                   transition: "transform 0.5s ease",
-                  // opacity: showStyleBtns ? 1 : 0,
-                  // transform: showStyleBtns
-                  //   ? "translateX(5%)"
-                  //   : "translateX(-100%)",
                 }}
                 justifyContent="center"
               >
-                {/* <Grid item md={12} display={"flex"} spacing={3}> */}
                 <Grid item md={2.3}>
                   <Box
                     display="flex"
@@ -376,9 +320,7 @@ const AddText = () => {
                           height: "28px", // Set the desired height (e.g., 30px)
                         },
                       }}
-                      // placeholder="A"
                     />
-                    {/* <input /> */}
                   </Box>
                 </Grid>
                 <Grid item md={2.7} xs={6} sm={4}>
@@ -409,7 +351,6 @@ const AddText = () => {
                             borderBottom: "none", // Remove underline from the FormControl on hover
                           },
                       }}
-                      // variant="standard"
                     >
                       <Box display="flex" alignItems="center">
                         <Box
@@ -459,8 +400,6 @@ const AddText = () => {
                         <Box
                           sx={{
                             borderLeft: "1px solid rgba(255, 255, 255, 0.23)",
-                            // py: 4,
-                            // px: 4,
                             width: "100%",
                             height: "100%",
                             color: "white",
@@ -468,7 +407,6 @@ const AddText = () => {
                             alignItems: "center",
                             justifyContent: "center",
 
-                            // borderRadius: "6px 0px 0px 6px",
                             cursor: "pointer",
                             fontWeight: 800,
                             px: 4,
@@ -564,17 +502,11 @@ const AddText = () => {
                     sx={{ display: "flex", alignItems: "flex-end" }}
                     mb={3}
                   >
-                    {/* <Box
-                      display="flex"
-                      alignItems="flex-end"
-                      // width={isMobile ? "100%" : "15%"}
-                    > */}{" "}
                     <Button
                       variant="contained"
                       fullWidth={isMobile}
                       sx={{
                         height: "48px",
-                        // px: isMobile ? 4 : 6,
                       }}
                       onClick={() => {
                         setShowStyleBtns(true);
@@ -583,7 +515,6 @@ const AddText = () => {
                     >
                       Add Text
                     </Button>
-                    {/* </Box> */}
                   </Grid>
                   <Grid item md={2}>
                     <Box
@@ -636,9 +567,7 @@ const AddText = () => {
                             height: "28px", // Set the desired height (e.g., 30px)
                           },
                         }}
-                        // placeholder="A"
                       />
-                      {/* <input /> */}
                     </Box>
                   </Grid>
                   <Grid item md={2.7} xs={6} sm={4}>
@@ -669,7 +598,6 @@ const AddText = () => {
                               borderBottom: "none", // Remove underline from the FormControl on hover
                             },
                         }}
-                        // variant="standard"
                       >
                         <Box display="flex" alignItems="center">
                           <Box
@@ -730,8 +658,6 @@ const AddText = () => {
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
-
-                              // borderRadius: "6px 0px 0px 6px",
                               cursor: "pointer",
                               fontWeight: 800,
                               px: 4,
@@ -750,7 +676,6 @@ const AddText = () => {
                       display="flex"
                       flexDirection="column"
                       justifyContent="flex-end"
-                      // width={isMobile ? "30%" : "12%"}
                     >
                       <Typography variant="body2">Style</Typography>
                       <FormControl fullWidth size="small">
@@ -780,7 +705,6 @@ const AddText = () => {
                       display="flex"
                       flexDirection="column"
                       justifyContent="flex-end"
-                      // width={isMobile ? "30%" : "12%"}
                     >
                       <Typography variant="body2">Capitalization</Typography>
                       <FormControl fullWidth size="small">
@@ -826,15 +750,12 @@ const AddText = () => {
               position: "relative",
               margin: "auto",
               textAlign: "center",
-              objectFit: "contain",
-              // maxHeight: "100%",
+              objectFit: "cover",
               maxWidth: "100%",
+              height: "100%",
             }}
-            // width={isMobile ? "280px" : "555px"}
-            // height="393px"
           />
           <Box
-            //  component="span"
             width={`${(renderedAspectRatio?.width! / 100) * 60}px`}
             sx={{ position: "absolute", top: 0 }}
             //  ref={draggableRef}
@@ -861,13 +782,8 @@ const AddText = () => {
                   {" "}
                   <Box component="form" width="100%" height="100%">
                     <Box
-                      // width={{ xs: 200, sm: "100%", md: 351.5 }}
-                      // height="33px"
                       borderRadius="5px"
-                      // display="flex"
-                      // justifyContent="center"
                       textAlign="center"
-                      // alignItems="center"
                       sx={{
                         cursor: "move",
                         border: `1px solid ${colorChange}`,
@@ -893,13 +809,9 @@ const AddText = () => {
                           fontStyle: selectedFontStyle,
 
                           textTransform: cssSelectedFontCase,
-                          // fontSize: selectedFontSize,
                         }}
                         variant="h1"
-                        // color="#8F9099"
                       >
-                        {" "}
-                        {/* JEFFERSON KENNEDY THOMPSON */}
                         Jefferson kennedy thompson
                       </Typography>
                     </Box>
@@ -943,7 +855,6 @@ const AddText = () => {
         <Button
           variant="contained"
           sx={{
-            //  width: "200px",
             height: "48px",
             px: 24,
             mb: 4,
@@ -976,16 +887,3 @@ const AddText = () => {
 };
 
 export default AddText;
-
-const useStyles = makeStyles(() => ({
-  // colorPicker: {
-  //   width: "100px",
-  //   height: "100px",
-  //   // backgroundColor: "lightgray",
-  //   // borderRadius: "8px",
-  // },
-}));
-
-const InputField = styled(TextareaAutosize)({
-  borderRadius: "5px",
-});

@@ -167,9 +167,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({
               </Grid>
             )}
             <Grid item xs={12}>
-              {activeTab === "Badges" ||
-              activeTab === "Tags" ||
-              activeTab === "Invitations" ? (
+              {activeTab === "Tags" || activeTab === "Invitations" ? (
                 <Box
                   className="dropzone long-dashed-border"
                   p={8}

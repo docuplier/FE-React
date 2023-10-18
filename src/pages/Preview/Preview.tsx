@@ -320,7 +320,6 @@ const Preview = () => {
       saveData(formData);
     }
   };
-  console.log("mee", context?.uploaded);
   const exportAsExcel = () => {
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";

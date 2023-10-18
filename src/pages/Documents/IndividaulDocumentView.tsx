@@ -1,33 +1,29 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Grid,
-  LinearProgress,
   Stack,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import LogoWhite from "assets/beta logo.png";
-import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
 import Footer from "components/Layout/Footer";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchSingleDocument, fetClientCert } from "services/documents";
 import { useQuery, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import PageSpinner from "components/pageSpinner/PageSpinner";
 import { format } from "date-fns";
-import PreviewCert from "pages/Preview/PreviewCert";
 import PreviewCertV2 from "pages/Preview/PreviewCertV2";
 import ToastContent from "components/ToastContent/ToastContent";
 
 const IndividualDocument = () => {
   const queryClient = useQueryClient();
   const theme = useTheme();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [URLParams, setURLParams] = useState({ client: "", doc: "" });
@@ -88,7 +84,7 @@ const IndividualDocument = () => {
   const shareImage = () => {
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        `https://decuplier.netlify.app/certifcates?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
+        `https://docuplier.com/document?doc=${singleDoc?.data?._id}&client=${singleDoc?.data?.client?._id}`
       )}`
     );
   };
