@@ -176,9 +176,7 @@ const PreviewExcelTable = ({
                 mb: 4,
                 border: "1px solid #fff",
                 color: "#fff",
-                "& .MuiButtonBase-root": {
-                  backgroundColor: "red",
-                },
+                "& .MuiButtonBase-root": {},
                 "&:hover": {
                   border: "none",
                 },
